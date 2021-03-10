@@ -1,0 +1,31 @@
+{
+    "name": "michaelferreira/laravel-boleto",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael de Oliveira Ferreira",
+            "email": "oliveiramichael@outlook.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./api-bradesco",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+      "ext-json": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.13"
+    },
+    "laravel": {
+        "providers": [
+            "Boleto\\Provider\\ServiceProvider"
+        ]
+    }
+}
