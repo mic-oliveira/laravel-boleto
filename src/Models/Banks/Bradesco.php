@@ -1,120 +1,128 @@
 <?php
 
 
+use Boleto\Models\Billet;
 use Bradesco\Interfaces\BilletTemplateInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Bradesco extends Model implements BilletTemplateInterface
 {
+    private Billet $billet;
+
+    public function __construct(Billet $billet)
+    {
+        $this->billet = $billet;
+    }
+
 
     public function getAgenciaDestino()
     {
-        // TODO: Implement getAgenciaDestino() method.
+        return $this->billet->agency;
     }
 
     public function getBairroPagador()
     {
-        // TODO: Implement getBairroPagador() method.
+        return $this->billet->payer->address->neighborhood ?? '';
     }
 
     public function getBairroSacadorAvalista()
     {
-        // TODO: Implement getBairroSacadorAvalista() method.
+        return $this->billet->drawer->address->neighborhood ?? '';
     }
 
     public function getCdEspecieTitulo()
     {
-        // TODO: Implement getCdEspecieTitulo() method.
+        return $this->billet->title_type;
     }
 
     public function getCdIndCpfcnpjPagador()
     {
-        // TODO: Implement getCdIndCpfcnpjPagador() method.
+        return $this->billet->payer->cpfcnpf_ind;
     }
 
     public function getCdIndCpfcnpjSacadorAvalista()
     {
-        // TODO: Implement getCdIndCpfcnpjSacadorAvalista() method.
+        return $this->billet->drawer->cpfcnpf_ind;
     }
 
     public function getCdPagamentoParcial()
     {
-        // TODO: Implement getCdPagamentoParcial() method.
+        return $this->billet->partial_payment_id;
     }
 
     public function getCepPagador()
     {
-        // TODO: Implement getCepPagador() method.
+        return $this->billet->payer->address->cep;
     }
 
     public function getCepSacadorAvalista()
     {
-        // TODO: Implement getCepSacadorAvalista() method.
+        return $this->billet->drawer->address->cep;
     }
 
     public function getCodigoMoeda()
     {
-        // TODO: Implement getCodigoMoeda() method.
+        return $this->billet->currency_code;
     }
 
     public function getComplementoCepPagador()
     {
-        // TODO: Implement getComplementoCepPagador() method.
+        return $this->billet->payer->address->cep_complement;
     }
 
     public function getComplementoCepSacadorAvalista()
     {
-        // TODO: Implement getComplementoCepSacadorAvalista() method.
+        return $this->billet->drawer->address->cep_complement;
     }
 
     public function getComplementoLogradouroPagador()
     {
-        // TODO: Implement getComplementoLogradouroPagador() method.
+        return $this->billet->payer->address->complement ?? '';
     }
 
     public function getComplementoLogradouroSacadorAvalista()
     {
-        // TODO: Implement getComplementoLogradouroSacadorAvalista() method.
+        return $this->billet->drawer->address->complement;
     }
 
     public function getControleParticipante()
     {
-        // TODO: Implement getControleParticipante() method.
+        return $this->billet->partner_controller;
     }
 
     public function getCtrlCPFCNPJ()
     {
-        // TODO: Implement getCtrlCPFCNPJ() method.
+        return $this->billet->cpfcpnj_controller;
     }
 
     public function getDataLimiteDesconto1()
     {
-        // TODO: Implement getDataLimiteDesconto1() method.
+        return $this->billet->discounts()->get(1)->date_limit;
     }
 
     public function getDataLimiteDesconto2()
     {
-        // TODO: Implement getDataLimiteDesconto2() method.
+        return $this->billet->discounts()->get(2)->date_limit;
     }
 
     public function getDataLimiteDesconto3()
     {
-        // TODO: Implement getDataLimiteDesconto3() method.
+        return $this->billet->discounts()->get(2)->date_limit;
     }
 
     public function getDddPagador()
     {
-        // TODO: Implement getDddPagador() method.
+        return $this->billet->payer->phone->ddd;
     }
 
     public function getDddSacadorAvalista()
     {
-        // TODO: Implement getDddSacadorAvalista() method.
+        return $this->billet->drawer->phone->ddd;
     }
 
     public function getDtEmissaoTitulo()
     {
-        // TODO: Implement getDtEmissaoTitulo() method.
+        return str_replace('-','.', $this->billet->emission_date);
     }
 
     public function getDtLimiteBonificacao()
@@ -124,132 +132,132 @@ class Bradesco extends Model implements BilletTemplateInterface
 
     public function getDtVencimentoTitulo()
     {
-        // TODO: Implement getDtVencimentoTitulo() method.
+        return str_replace('-','.', $this->billet->due_date);
     }
 
     public function getNutitulo()
     {
-        // TODO: Implement getNutitulo() method.
+        return $this->billet->title_number;
     }
 
     public function getEndEletronicoPagador()
     {
-        // TODO: Implement getEndEletronicoPagador() method.
+        return $this->billet->payer->email;
     }
 
     public function getEndEletronicoSacadorAvalista()
     {
-        // TODO: Implement getEndEletronicoSacadorAvalista() method.
+        return $this->billet->drawer->email;
     }
 
     public function getFilialCPFCNPJ()
     {
-        // TODO: Implement getFilialCPFCNPJ() method.
+        return $this->billet->cpfcnpj_branch;
     }
 
     public function getFormaEmissao()
     {
-        // TODO: Implement getFormaEmissao() method.
+        return $this->billet->emission_form;
     }
 
     public function getIdProduto()
     {
-        // TODO: Implement getIdProduto() method.
+        return $this->billet->product_id;
     }
 
     public function getLogradouroPagador()
     {
-        // TODO: Implement getLogradouroPagador() method.
+        return $this->billet->payer->address->street;
     }
 
     public function getLogradouroSacadorAvalista()
     {
-        // TODO: Implement getLogradouroSacadorAvalista() method.
+        return $this->billet->drawer->address->street;
     }
 
     public function getMunicipioPagador()
     {
-        // TODO: Implement getMunicipioPagador() method.
+        return $this->billet->payer->address->city;
     }
 
     public function getMunicipioSacadorAvalista()
     {
-        // TODO: Implement getMunicipioSacadorAvalista() method.
+        return $this->billet->drawer->address->city;
     }
 
     public function getNomePagador()
     {
-        // TODO: Implement getNomePagador() method.
+       return $this->billet->payer->name;
     }
 
     public function getNomeSacadorAvalista()
     {
-        // TODO: Implement getNomeSacadorAvalista() method.
+        return $this->billet->drawer->name;
     }
 
     public function getNuCPFCNPJ()
     {
-        // TODO: Implement getNuCPFCNPJ() method.
+        return $this->billet->cpfcnpf_number;
     }
 
     public function getNuCliente()
     {
-        // TODO: Implement getNuCliente() method.
+        return $this->billet->client_number;
     }
 
     public function getNuCpfcnpjPagador()
     {
-        // TODO: Implement getNuCpfcnpjPagador() method.
+        return $this->billet->payer->cpf_cnpj;
     }
 
     public function getNuCpfcnpjSacadorAvalista()
     {
-        // TODO: Implement getNuCpfcnpjSacadorAvalista() method.
+        return $this->billet->drawer->cpf_cnpf;
     }
 
     public function getNuLogradouroPagador()
     {
-        // TODO: Implement getNuLogradouroPagador() method.
+        return $this->billet->payer->address->number;
     }
 
     public function getNuLogradouroSacadorAvalista()
     {
-        // TODO: Implement getNuLogradouroSacadorAvalista() method.
+        return $this->billet->drawer->address->number;
     }
 
     public function getNuNegociacao()
     {
-        // TODO: Implement getNuNegociacao() method.
+        return $this->billet->negotiation_number;
     }
 
     public function getPercentualBonificacao()
     {
-        // TODO: Implement getPercentualBonificacao() method.
+        return $this->billet->bonus->percetual ?? '';
     }
 
     public function getPercentualDesconto1()
     {
-        // TODO: Implement getPercentualDesconto1() method.
+        return $this->billet->discounts()->get(1)->percent;
     }
 
     public function getPercentualDesconto2()
     {
-        // TODO: Implement getPercentualDesconto2() method.
+        return $this->billet->discounts()->get(2)->percent;
     }
 
     public function getPercentualDesconto3()
     {
-        // TODO: Implement getPercentualDesconto3() method.
+        return $this->billet->discounts()->get(3)->percent;
     }
 
     public function getPercentualJuros()
     {
-        // TODO: Implement getPercentualJuros() method.
+
     }
 
     public function getPercentualMulta()
     {
-        // TODO: Implement getPercentualMulta() method.
+        return $this->billet->fine->percent;
     }
 
     public function getPrazoBonificacao()
@@ -372,8 +380,82 @@ class Bradesco extends Model implements BilletTemplateInterface
         // TODO: Implement getVlNominalTitulo() method.
     }
 
-    public function parse()
+    public function parse(): array
     {
-        // TODO: Implement parse() method.
+        return [
+            "agenciaDestino" => $this->getAgenciaDestino(),
+            "bairroPagador" => $this->getBairroPagador(),
+            "bairroSacadorAvalista" => $this->getBairroSacadorAvalista(),
+            "cdEspecieTitulo" => $this->getCdEspecieTitulo(),
+            "cdIndCpfcnpjPagador" => $this->getCdIndCpfcnpjPagador(),
+            "cdIndCpfcnpjSacadorAvalista" => $this->getCdIndCpfcnpjSacadorAvalista(),
+            "cdPagamentoParcial" => $this->getCdPagamentoParcial(),
+            "cepPagador" => $this->getCepPagador(),
+            "cepSacadorAvalista" => $this->getCepSacadorAvalista(),
+            "codigoMoeda" => $this->getCodigoMoeda(),
+            "complementoCepPagador" => $this->getComplementoCepPagador(),
+            "complementoCepSacadorAvalista" => $this->getComplementoCepSacadorAvalista(),
+            "complementoLogradouroPagador" => $this->getComplementoLogradouroPagador(),
+            "complementoLogradouroSacadorAvalista" => $this->getComplementoLogradouroSacadorAvalista(),
+            "controleParticipante" => $this->getControleParticipante(),
+            "ctrlCPFCNPJ" => $this->getCtrlCPFCNPJ(),
+            "dataLimiteDesconto1" => $this->getDataLimiteDesconto1(),
+            "dataLimiteDesconto2" => $this->getDataLimiteDesconto2(),
+            "dataLimiteDesconto3" => $this->getDataLimiteDesconto3(),
+            "dddPagador" => $this->getDddPagador(),
+            "dddSacadorAvalista" => $this->getDddSacadorAvalista(),
+            "dtEmissaoTitulo" => $this->getDtEmissaoTitulo(),
+            "dtLimiteBonificacao" => $this->getDtLimiteBonificacao(),
+            "dtVencimentoTitulo" => $this->getDtVencimentoTitulo(),
+            "nutitulo" => $this->getNutitulo(),
+            "endEletronicoPagador" => $this->getEndEletronicoPagador(),
+            "endEletronicoSacadorAvalista" => $this->getEndEletronicoSacadorAvalista(),
+            "filialCPFCNPJ" => $this->getFilialCPFCNPJ(),
+            "formaEmissao" => $this->getFormaEmissao(),
+            "idProduto" => $this->getIdProduto(),
+            "logradouroPagador" => $this->getLogradouroPagador(),
+            "logradouroSacadorAvalista" => $this->getLogradouroSacadorAvalista(),
+            "municipioPagador" => $this->getMunicipioPagador(),
+            "municipioSacadorAvalista" => $this->getMunicipioSacadorAvalista(),
+            "nomePagador" => $this->getNomePagador(),
+            "nomeSacadorAvalista" => $this->getNomeSacadorAvalista(),
+            "nuCPFCNPJ" => $this->getNuCPFCNPJ(),
+            "nuCliente" => $this->getNuCliente(),
+            "nuCpfcnpjPagador" => $this->getNuCpfcnpjPagador(),
+            "nuCpfcnpjSacadorAvalista" => $this->getNuCpfcnpjSacadorAvalista(),
+            "nuLogradouroPagador" => $this->getNuLogradouroPagador(),
+            "nuLogradouroSacadorAvalista" => $this->getNuLogradouroSacadorAvalista(),
+            "nuNegociacao" => $this->getNuNegociacao(),
+            "percentualBonificacao" => $this->getPercentualBonificacao(),
+            "percentualDesconto1" => $this->getPercentualDesconto1(),
+            "percentualDesconto2" => $this->getPercentualDesconto2(),
+            "percentualDesconto3" => $this->getPercentualDesconto3(),
+            "percentualJuros" => $this->percentualJuros,
+            "percentualMulta" => $this->getPercentualMulta(),
+            "prazoBonificacao" => $this->getPrazoBonificacao(),
+            "prazoDecurso" => $this->getPrazoDecurso(),
+            "prazoProtestoAutomaticoNegativacao" => $this->getPrazoProtestoAutomaticoNegativacao(),
+            "qtdeDiasJuros" => $this->getQtdeDiasJuros(),
+            "qtdeDiasMulta" => $this->getQtdeDiasMulta(),
+            "qtdePagamentoParcial" => $this->getQtdePagamentoParcial(),
+            "quantidadeMoeda" => $this->getQuantidadeMoeda(),
+            "registraTitulo" => $this->getRegistraTitulo(),
+            "telefonePagador" => $this->getTelefonePagador(),
+            "telefoneSacadorAvalista" => $this->getTelefoneSacadorAvalista(),
+            "tipoDecurso" => $this->getTipoDecurso(),
+            "tpProtestoAutomaticoNegativacao" => $this->getTpProtestoAutomaticoNegativacao(),
+            "ufPagador" => $this->getUfPagador(),
+            "ufSacadorAvalista" => $this->getUfSacadorAvalista(),
+            "versaoLayout" => $this->versaoLayout,
+            "vlAbatimento" => $this->getVlAbatimento(),
+            "vlBonificacao" => $this->getVlBonificacao(),
+            "vlDesconto1" => $this->getVlDesconto1(),
+            "vlDesconto2" => $this->getVlDesconto2(),
+            "vlDesconto3" => $this->getVlDesconto3(),
+            "vlIOF" => $this->getVlIOF(),
+            "vlJuros" => $this->getVlJuros(),
+            "vlMulta" => $this->getVlMulta(),
+            "vlNominalTitulo" => $this->getVlNominalTitulo(),
+        ];
     }
 }

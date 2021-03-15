@@ -16,10 +16,8 @@ class CreateAddressesTable extends Migration
             $table->string('number');
             $table->string('neighborhood')->nullable();
             $table->integer('cep')->nullable();
-            $table->integer('cep_complement')->nullable();
             $table->string('city');
             $table->string('UF');
-            $table->integer('layout_version');
             $table->foreignId('id_person')->constrained('people');
         });
     }
