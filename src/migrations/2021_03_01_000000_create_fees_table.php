@@ -5,11 +5,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFinesTable extends Migration
+class CreateFeesTable extends Migration
 {
     public function up()
     {
-        Schema::create('fines', function (Blueprint $table) {
+        Schema::create('fees', function (Blueprint $table) {
             $table->id();
             $table->string('value')->default(0);
             $table->integer('percent')->default(0);
