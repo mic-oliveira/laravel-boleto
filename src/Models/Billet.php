@@ -23,9 +23,9 @@ class Billet extends Model
         return $this->hasOne(Person::class, 'billet_id');
     }
 
-    public function interest(): HasOne
+    public function fee()
     {
-        return $this->hasOne(Interest::class, 'billet_id');
+        return $this->hasOne(Fee::class, 'billet_id');
     }
 
     public function fine()

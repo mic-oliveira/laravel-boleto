@@ -13,7 +13,7 @@ class CreateFinesTable extends Migration
             $table->id();
             $table->string('value')->default(0);
             $table->integer('percent')->default(0);
-            $table->date('limit_date')->default('');
+            $table->integer('limit_date')->default(0);
             $table->string('days')->default(0);
             $table->foreignId('billet_id')->references('billets');
         });

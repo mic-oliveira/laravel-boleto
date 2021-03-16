@@ -97,17 +97,17 @@ class Bradesco extends Model implements BilletTemplateInterface
 
     public function getDataLimiteDesconto1()
     {
-        return $this->billet->discounts()->get(1)->date_limit;
+        return $this->billet->discounts->get(0)->date_limit;
     }
 
     public function getDataLimiteDesconto2()
     {
-        return $this->billet->discounts()->get(2)->date_limit;
+        return $this->billet->discounts->get(1)->date_limit;
     }
 
     public function getDataLimiteDesconto3()
     {
-        return $this->billet->discounts()->get(2)->date_limit;
+        return $this->billet->discounts->get(2)->date_limit;
     }
 
     public function getDddPagador()
@@ -127,7 +127,7 @@ class Bradesco extends Model implements BilletTemplateInterface
 
     public function getDtLimiteBonificacao()
     {
-        // TODO: Implement getDtLimiteBonificacao() method.
+        return $this->billet->bonus->limit_date;
     }
 
     public function getDtVencimentoTitulo()
@@ -237,22 +237,22 @@ class Bradesco extends Model implements BilletTemplateInterface
 
     public function getPercentualDesconto1()
     {
-        return $this->billet->discounts()->get(1)->percent;
+        return $this->billet->discounts->get(0)->percent;
     }
 
     public function getPercentualDesconto2()
     {
-        return $this->billet->discounts()->get(2)->percent;
+        return $this->billet->discounts->get(1)->percent;
     }
 
     public function getPercentualDesconto3()
     {
-        return $this->billet->discounts()->get(3)->percent;
+        return $this->billet->discounts->get(2)->percent;
     }
 
     public function getPercentualJuros()
     {
-
+        return $this->billet->fine->percent;
     }
 
     public function getPercentualMulta()
@@ -262,122 +262,122 @@ class Bradesco extends Model implements BilletTemplateInterface
 
     public function getPrazoBonificacao()
     {
-        // TODO: Implement getPrazoBonificacao() method.
+        return $this->billet->bonus->date_limit;
     }
 
     public function getPrazoDecurso()
     {
-        // TODO: Implement getPrazoDecurso() method.
+        return $this->billet->term_limit;
     }
 
     public function getPrazoProtestoAutomaticoNegativacao()
     {
-        // TODO: Implement getPrazoProtestoAutomaticoNegativacao() method.
+        return $this->billet->protest_limit;
     }
 
     public function getQtdeDiasJuros()
     {
-        // TODO: Implement getQtdeDiasJuros() method.
+        return $this->billet->fee->days;
     }
 
     public function getQtdeDiasMulta()
     {
-        // TODO: Implement getQtdeDiasMulta() method.
+        return $this->billet->fine->days;
     }
 
     public function getQtdePagamentoParcial()
     {
-        // TODO: Implement getQtdePagamentoParcial() method.
+        return $this->billet->amount_partial_payment;
     }
 
     public function getQuantidadeMoeda()
     {
-        // TODO: Implement getQuantidadeMoeda() method.
+        return $this->billet->currency_amount;
     }
 
     public function getRegistraTitulo()
     {
-        // TODO: Implement getRegistraTitulo() method.
+        return $this->billet->register_title;
     }
 
     public function getTelefonePagador()
     {
-        // TODO: Implement getTelefonePagador() method.
+        return $this->billet->payer->phone->number ?? 0;
     }
 
     public function getTelefoneSacadorAvalista()
     {
-        // TODO: Implement getTelefoneSacadorAvalista() method.
+        return $this->billet->drawer->phone->number ?? 0;
     }
 
     public function getTipoDecurso()
     {
-        // TODO: Implement getTipoDecurso() method.
+        return $this->billet->term_type;
     }
 
     public function getTpProtestoAutomaticoNegativacao()
     {
-        // TODO: Implement getTpProtestoAutomaticoNegativacao() method.
+        return $this->billet->protest_type;
     }
 
     public function getUfPagador()
     {
-        // TODO: Implement getUfPagador() method.
+        return $this->billet->payer->address->UF;
     }
 
     public function getUfSacadorAvalista()
     {
-        // TODO: Implement getUfSacadorAvalista() method.
+        return $this->billet->drawer->address->UF;
     }
 
     public function getVersaoLayout()
     {
-        // TODO: Implement getVersaoLayout() method.
+        return $this->billet->layout_version;
     }
 
     public function getVlAbatimento()
     {
-        // TODO: Implement getVlAbatimento() method.
+        return $this->billet->discount_amount;
     }
 
     public function getVlBonificacao()
     {
-        // TODO: Implement getVlBonificacao() method.
+        return $this->billet->bonus_amount;
     }
 
     public function getVlDesconto1()
     {
-        // TODO: Implement getVlDesconto1() method.
+        return $this->billet->discounts->get(0)->value;
     }
 
     public function getVlDesconto2()
     {
-        // TODO: Implement getVlDesconto2() method.
+        return $this->billet->discounts->get(1)->value;
     }
 
     public function getVlDesconto3()
     {
-        // TODO: Implement getVlDesconto3() method.
+        return $this->billet->discounts->get(2)->value;
     }
 
     public function getVlIOF()
     {
-        // TODO: Implement getVlIOF() method.
+        return $this->billet->IOF_value;
     }
 
     public function getVlJuros()
     {
-        // TODO: Implement getVlJuros() method.
+        return $this->billet->fee->value;
     }
 
     public function getVlMulta()
     {
-        // TODO: Implement getVlMulta() method.
+        return $this->billet->fine->value;
     }
 
     public function getVlNominalTitulo()
     {
-        // TODO: Implement getVlNominalTitulo() method.
+        return $this->billet->nominal_value;
     }
 
     public function parse(): array
@@ -430,7 +430,7 @@ class Bradesco extends Model implements BilletTemplateInterface
             "percentualDesconto1" => $this->getPercentualDesconto1(),
             "percentualDesconto2" => $this->getPercentualDesconto2(),
             "percentualDesconto3" => $this->getPercentualDesconto3(),
-            "percentualJuros" => $this->percentualJuros,
+            "percentualJuros" => $this->getPercentualJuros(),
             "percentualMulta" => $this->getPercentualMulta(),
             "prazoBonificacao" => $this->getPrazoBonificacao(),
             "prazoDecurso" => $this->getPrazoDecurso(),
@@ -446,7 +446,7 @@ class Bradesco extends Model implements BilletTemplateInterface
             "tpProtestoAutomaticoNegativacao" => $this->getTpProtestoAutomaticoNegativacao(),
             "ufPagador" => $this->getUfPagador(),
             "ufSacadorAvalista" => $this->getUfSacadorAvalista(),
-            "versaoLayout" => $this->versaoLayout,
+            "versaoLayout" => $this->getVersaoLayout(),
             "vlAbatimento" => $this->getVlAbatimento(),
             "vlBonificacao" => $this->getVlBonificacao(),
             "vlDesconto1" => $this->getVlDesconto1(),
@@ -458,4 +458,5 @@ class Bradesco extends Model implements BilletTemplateInterface
             "vlNominalTitulo" => $this->getVlNominalTitulo(),
         ];
     }
+
 }
