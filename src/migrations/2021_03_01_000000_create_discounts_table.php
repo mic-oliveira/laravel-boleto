@@ -15,11 +15,13 @@ class CreateDiscountsTable extends Migration
             $table->integer('percent')->default(0);
             $table->date('limit_date')->default(0);
             $table->foreignId('billet_id')->references('billets');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('billets');
+        Schema::dropIfExists('discounts');
     }
 }

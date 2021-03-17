@@ -14,11 +14,13 @@ class CreatePhonesTable extends Migration
             $table->integer('number');
             $table->integer('ddd');
             $table->foreignId('person_id')->constrained('people');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('billets');
+        Schema::dropIfExists('phones');
     }
 }

@@ -5,9 +5,14 @@ namespace Boleto\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
+    use SoftDeletes;
+
+    protected $table = 'people';
+
     protected $fillable = [
 
     ];
@@ -15,6 +20,11 @@ class Person extends Model
     public function getCpfcnpjIndAttribute()
     {
         return substr($this->cpf_cnpj,-1,1);
+    }
+
+    public function billets()
+    {
+        return $this->hasMany(Billet::class,'payer_id');
     }
 
     public function getEmailAttribute()
@@ -25,11 +35,6 @@ class Person extends Model
     public function address(): HasOne
     {
         return $this->hasOne(Address::class, 'person_id');
-    }
-
-    public function document(): HasOne
-    {
-        return $this->hasOne(Document::class, 'person_id');
     }
 
     public function emails()

@@ -13,11 +13,13 @@ class CreatePeopleTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('cpf_cnpj');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('billets');
+        Schema::dropIfExists('people');
     }
 }

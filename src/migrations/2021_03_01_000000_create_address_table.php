@@ -19,11 +19,13 @@ class CreateAddressesTable extends Migration
             $table->string('city');
             $table->string('UF');
             $table->foreignId('id_person')->constrained('people');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('billets');
+        Schema::dropIfExists('addresses');
     }
 }

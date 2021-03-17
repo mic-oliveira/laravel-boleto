@@ -11,6 +11,8 @@ class CreateBilletsTable extends Migration
     {
         Schema::create('billets', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('bank_id');
+            $table->string('bank');
             $table->integer('agency');
             $table->string('title_number');
             $table->integer('title_type');
@@ -36,6 +38,8 @@ class CreateBilletsTable extends Migration
             $table->foreignId('payer_id')->constrained('people');
             $table->foreignId('drawer_id')->constrained('people');
             $table->integer('layout_version')->default(1);
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

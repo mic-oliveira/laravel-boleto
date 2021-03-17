@@ -16,11 +16,13 @@ class CreateFinesTable extends Migration
             $table->integer('limit_date')->default(0);
             $table->string('days')->default(0);
             $table->foreignId('billet_id')->references('billets');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('billets');
+        Schema::dropIfExists('fines');
     }
 }

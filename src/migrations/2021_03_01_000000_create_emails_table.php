@@ -13,11 +13,13 @@ class CreateEmailsTable extends Migration
             $table->id();
             $table->string('email');
             $table->foreignId('person_id')->constrained('people');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('billets');
+        Schema::dropIfExists('emails');
     }
 }

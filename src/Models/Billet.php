@@ -6,12 +6,41 @@ use Bradesco\Models\Bonus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Billet extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'billets';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'agency',
+        'title_number',
+        'title_type',
+        'currency_code',
+        'product_id',
+        'client_number',
+        'partial_payment_id',
+        'amount_partial_payment',
+        'emission_form',
+        'currency_amount',
+        'register_title',
+        'emission_date',
+        'due_date',
+        'cpfcnpj_number',
+        'term_limit',
+        'term_type',
+        'protest_limit',
+        'protest_type',
+        'cpfcnpj_branch',
+        'negotiation_number',
+        'iof_value',
+        'nominal_value',
+        'payer_id',
+        'drawer_id',
+        'layout_version',
+    ];
 
     public function payer(): HasOne
     {

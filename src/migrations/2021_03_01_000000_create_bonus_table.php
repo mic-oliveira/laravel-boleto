@@ -15,11 +15,13 @@ class CreateBonusTable extends Migration
             $table->integer('percent');
             $table->date('limit_date');
             $table->foreignId('billet_id')->references('billets');
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('billets');
+        Schema::dropIfExists('discounts');
     }
 }

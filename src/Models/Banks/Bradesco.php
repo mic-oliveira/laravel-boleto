@@ -4,6 +4,8 @@
 use Boleto\Models\Billet;
 use Bradesco\Interfaces\BilletTemplateInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Bradesco extends Model implements BilletTemplateInterface
 {
@@ -11,9 +13,9 @@ class Bradesco extends Model implements BilletTemplateInterface
 
     public function __construct(Billet $billet)
     {
-        $this->billet = $billet;
+        parent::__construct();
+        $this->billet = $billet ?? new Billet();
     }
-
 
     public function getAgenciaDestino()
     {
@@ -378,6 +380,17 @@ class Bradesco extends Model implements BilletTemplateInterface
     public function getVlNominalTitulo()
     {
         return $this->billet->nominal_value;
+    }
+
+    public function createBillet(array $billet)
+    {
+        DB::beginTransaction();
+        try{
+            $billet = $this->billet->fill($billet)->saveOrFail();
+
+        } catch (Throwable $e) {
+        }
+
     }
 
     public function parse(): array

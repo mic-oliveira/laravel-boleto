@@ -9,11 +9,15 @@ use Bradesco\Services\AuthService;
 use Bradesco\Services\BilletEmissionService;
 use Bradesco\Services\JWTService;
 use Bradesco\Services\SignatureService;
+use Exception;
+use SignatureException;
 
 class BradescoBoletoService extends BilletEmissionService implements BoletoInterface
 {
     private Signature $signature;
     private string $jwtService;
+    private BilletTemplateInterface $billet;
+
     public function __construct(JWTService $JWTService, Signature $signature)
     {
         parent::__construct();
@@ -24,6 +28,7 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
     public function createBillet(BilletTemplateInterface $billetTemplate)
     {
         try{
+
             $this->makeSignature($billetTemplate->parse(),"/v1/boleto/registrarBoleto", "POST");
             $this->emit($billetTemplate);
         } catch (Exception $exception) {
