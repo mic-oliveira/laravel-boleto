@@ -12,6 +12,12 @@ class Fee extends Model
 
     protected $table = 'fees';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'value',
+        'percent',
+        'limit_date',
+        'days',
+        'billet_id',
+    ];
 
 }

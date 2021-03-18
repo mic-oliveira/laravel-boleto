@@ -12,5 +12,9 @@ class Phone extends Model
 
     protected $table = 'phones';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'number',
+        'ddd',
+        'person_id',
+    ];
 }

@@ -14,7 +14,8 @@ class Person extends Model
     protected $table = 'people';
 
     protected $fillable = [
-
+        'name',
+        'cpf_cnpj'
     ];
 
     public function getCpfcnpjIndAttribute()

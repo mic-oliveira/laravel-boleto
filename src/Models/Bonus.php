@@ -12,5 +12,10 @@ class Bonus extends Model
 
     protected $table = 'bonus';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'value',
+        'percent',
+        'limit_date',
+        'billet_id',
+    ];
 }

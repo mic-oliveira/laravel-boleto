@@ -9,7 +9,7 @@ class CreateBonusTable extends Migration
 {
     public function up()
     {
-        Schema::create('discounts', function (Blueprint $table) {
+        Schema::create('bonus', function (Blueprint $table) {
             $table->id();
             $table->string('value');
             $table->integer('percent');

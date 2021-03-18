@@ -12,7 +12,16 @@ class Address extends Model
 
     protected $table = 'addresses';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'street',
+        'complement',
+        'number',
+        'neighborhood',
+        'cep',
+        'city',
+        'UF',
+        'id_person',
+    ];
 
     public function getCepAttribute()
     {

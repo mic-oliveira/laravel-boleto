@@ -13,6 +13,9 @@ class Email extends Model
 
     protected $table = 'emails';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'email',
+        'person_id'
+    ];
 
 }

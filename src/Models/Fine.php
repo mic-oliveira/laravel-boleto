@@ -11,6 +11,5 @@ class Fine extends Model
 {
     use SoftDeletes;
 
-
     protected $fillable = [];
 }

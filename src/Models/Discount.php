@@ -12,5 +12,10 @@ class Discount extends Model
 
     protected $table = 'discounts';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'value',
+        'percent',
+        'limit_date',
+        'billet_id',
+    ];
 }

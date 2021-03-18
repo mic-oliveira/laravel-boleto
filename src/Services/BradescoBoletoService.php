@@ -61,7 +61,12 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
             $this->signature->setAgency(config('laravel-boleto.bradesco_agency'));
             $this->signature->setNonce(now()->getPreciseTimestamp(3));
             $this->signature->setTimestamp(now()->setTimezone(-3)->toIso8601String());
-            $this->signature->setBradSignature(SignatureService::requestString($this->signature));
+            $this->signature->setBradSignature(
+                SignatureService::bradRequestSignature(
+                        $this->signature, config('bradesco_certificate_path', config('bradesco_certificate_pass')
+                    )
+                )
+            );
         } catch (Exception $exception) {
             throw new SignatureException('Signature error during create.');
         }
