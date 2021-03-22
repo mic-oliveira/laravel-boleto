@@ -18,9 +18,14 @@ class Person extends Model
         'cpf_cnpj'
     ];
 
+    public function getCpfcnpfAttribute()
+    {
+        return substr($this->attributes['cpf_cnpf'],0,-1);
+    }
+
     public function getCpfcnpjIndAttribute()
     {
-        return substr($this->cpf_cnpj,-1,1);
+        return substr($this->attributes['cpf_cnpf'],-1,1);
     }
 
     public function billets()

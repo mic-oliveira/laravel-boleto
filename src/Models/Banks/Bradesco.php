@@ -5,7 +5,6 @@ use Boleto\Models\Billet;
 use Bradesco\Interfaces\BilletTemplateInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class Bradesco extends Model implements BilletTemplateInterface
 {

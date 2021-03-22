@@ -20,7 +20,7 @@ class Address extends Model
         'cep',
         'city',
         'UF',
-        'id_person',
+        'person_id',
     ];
 
     public function getCepAttribute()

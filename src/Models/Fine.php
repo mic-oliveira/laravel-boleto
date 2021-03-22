@@ -11,5 +11,11 @@ class Fine extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'value',
+        'percent',
+        'limit_date',
+        'days',
+        'billet_id'
+    ];
 }

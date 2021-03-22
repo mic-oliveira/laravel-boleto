@@ -7,7 +7,7 @@ namespace Boleto\Repositories\Eloquent;
 use Boleto\Repositories\EloquentRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class Phone extends EloquentRepository
+class PhoneRepository extends EloquentRepository
 {
     public function __construct(Model $model)
     {

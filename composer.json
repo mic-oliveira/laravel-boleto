@@ -21,7 +21,19 @@
       "ext-json": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.13"
+        "orchestra/testbench": "^6.13",
+        "laravel/legacy-factories": "^1.0.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Boleto\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Boleto\\": "./src",
+            "Boleto\\Tests\\": "./tests"
+        }
     },
     "laravel": {
         "providers": [

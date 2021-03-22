@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +17,7 @@ class CreateAddressesTable extends Migration
             $table->integer('cep')->nullable();
             $table->string('city');
             $table->string('UF');
-            $table->foreignId('id_person')->constrained('people');
+            $table->foreignId('person_id')->constrained('people');
             $table->softDeletes();
             $table->timestamps();
         });

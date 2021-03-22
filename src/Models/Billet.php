@@ -52,12 +52,12 @@ class Billet extends Model
         return $this->hasOne(Person::class, 'billet_id');
     }
 
-    public function fee()
+    public function fee(): HasOne
     {
         return $this->hasOne(Fee::class, 'billet_id');
     }
 
-    public function fine()
+    public function fine(): HasOne
     {
         return $this->hasOne(Fine::class, 'billet_id');
     }

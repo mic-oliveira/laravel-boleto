@@ -13,6 +13,10 @@ class EloquentRepository implements RepositoryInterface
         $this->model = $model;
     }
 
+    public function get()
+    {
+        return $this->model::all();
+    }
 
     public function create(array $data): Model
     {
