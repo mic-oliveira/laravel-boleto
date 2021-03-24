@@ -10,7 +10,7 @@ class CreateBilletsTable extends Migration
     {
         Schema::create('billets', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('bank_id');
+            $table->bigInteger('bank_id')->nullable();
             $table->string('bank');
             $table->integer('agency');
             $table->string('title_number');

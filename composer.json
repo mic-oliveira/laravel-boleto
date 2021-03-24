@@ -31,6 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Bradesco\\": "./api-bradesco/src",
             "Boleto\\": "./src",
             "Boleto\\Tests\\": "./tests"
         }

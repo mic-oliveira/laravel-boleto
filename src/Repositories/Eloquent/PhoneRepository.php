@@ -37,7 +37,6 @@ class PhoneRepository extends EloquentRepository
     public function createOrUpdate($data): Model
     {
         $query = $this->get()->toQuery()->where('ddd','=',$data['ddd'])
-            ->where('number','=',$data['number'])
             ->where('person_id','=',$data['person_id']);
         return $query->exists() ? $this->update($data, $query->get()->first()->id) : $this->create($data);
     }

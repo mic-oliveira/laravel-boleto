@@ -2,6 +2,7 @@
 
 namespace Boleto\Repositories\Eloquent;
 
+use Boleto\Models\Address;
 use Boleto\Models\Person;
 use Boleto\Repositories\EloquentRepository;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +45,12 @@ class PersonRepository extends EloquentRepository
         $person = $query->exists() ? $this->update($data, $query->get()->first()->id) : $this->create($data);
         array_key_exists('phone', $data) ? resolve(PhoneRepository::class)->createOrUpdate($data['phone'])
             : resolve(PhoneRepository::class)->create(['ddd' => 0, 'number' => 0, 'person_id' => $person->id]);
+        array_key_exists('address', $data) ? resolve(AddressRepository::class)->createOrUpdate($data['address'])
+            : null;
+        array_key_exists('email', $data) ?
+            resolve(EmailRepository::class)
+                ->createOrUpdate(array_key_exists($data['email'],['person_id' => $person->id]))
+            : null;
         return $person;
     }
 

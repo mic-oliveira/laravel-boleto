@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Boleto\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/api-bradesco/src" isTestSource="true" packagePrefix="Bradesco\" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="true" packagePrefix="Boleto\" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="Boleto\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />

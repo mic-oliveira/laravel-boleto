@@ -2,7 +2,12 @@
 
 namespace Boleto\Services;
 
+use Boleto\Models\Banks\Bradesco;
 use Boleto\Repositories\Eloquent\BilletRepository;
+use Boleto\Repositories\Eloquent\BonusRepository;
+use Boleto\Repositories\Eloquent\DiscountRepository;
+use Boleto\Repositories\Eloquent\FeeRepository;
+use Boleto\Repositories\Eloquent\FineRepository;
 use Boleto\Repositories\Eloquent\PersonRepository;
 use BoletoInterface;
 use Bradesco\Interfaces\BilletTemplateInterface;
@@ -18,7 +23,6 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
 {
     private Signature $signature;
     private string $jwtService;
-    private BilletTemplateInterface $billet;
 
     public function __construct(JWTService $JWTService, Signature $signature)
     {
@@ -30,22 +34,11 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
     public function createBillet(BilletTemplateInterface $billetTemplate)
     {
         try{
-
             $this->makeSignature($billetTemplate->parse(),"/v1/boleto/registrarBoleto", "POST");
             $this->emit($billetTemplate);
         } catch (Exception $exception) {
             throw $exception;
         }
-    }
-
-    public function updateBillet(BilletTemplateInterface $billetTemplate)
-    {
-        // TODO: Implement updateBillet() method.
-    }
-
-    public function cancelBillet()
-    {
-        // TODO: Implement cancelBillet() method.
     }
 
     private function makeSignature(array $data, string $url, string $verb = null)
@@ -74,19 +67,44 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
         }
     }
 
+    public function makeTemplate(array $data)
+    {
+        return new Bradesco($this->billetFromArray($data));
+    }
+
     public function billetFromArray(array $data)
     {
-        DB::beginTransaction();
+        $payer = resolve(PersonRepository::class)->createOrUpdate($data['payer']);
+        $drawer = resolve(PersonRepository::class)->createOrUpdate($data['drawer']);
+        $billet = resolve(BilletRepository::class)
+            ->create(array_merge($data,['payer_id' => $payer->id, 'drawer_id' => $drawer->id]));
+        resolve(DiscountRepository::class)->createDiscounts(array_merge($data['discounts']));
+        resolve(BonusRepository::class)->create(array_merge($data['bonus'], ['billet_id' => $billet->id]));
+        resolve(FineRepository::class)->create(array_merge($data['fine'], ['billet_id' => $billet->id]));
+        resolve(FeeRepository::class)->create(array_merge($data['fee'], ['billet_id' => $billet->id]));
+        DB::commit();
+        return $billet;
+    }
+
+    public function charge(array $data)
+    {
+        DB::commit();
         try{
-
-            $payer = resolve(PersonRepository::class)->createOrUpdate($data['payer']);
-            $drawer = resolve(PersonRepository::class)->createOrUpdate($data['drawer']);
-            $billet = resolve(BilletRepository::class)
-                ->create(array_merge($data,['payer_id' => $payer->id, 'drawer_id' => $drawer->id]));
-
+            $this->createBillet($this->makeTemplate($data));
+            DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
+            throw $exception;
         }
     }
 
+    public function updateBillet(BilletTemplateInterface $billetTemplate)
+    {
+        // TODO: Implement updateBillet() method.
+    }
+
+    public function cancelBillet()
+    {
+        // TODO: Implement cancelBillet() method.
+    }
 }
