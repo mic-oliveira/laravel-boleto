@@ -2,6 +2,8 @@
 
 namespace Boleto\Services;
 
+use Boleto\Repositories\Eloquent\BilletRepository;
+use Boleto\Repositories\Eloquent\PersonRepository;
 use BoletoInterface;
 use Bradesco\Interfaces\BilletTemplateInterface;
 use Bradesco\Models\Signature;
@@ -10,7 +12,7 @@ use Bradesco\Services\BilletEmissionService;
 use Bradesco\Services\JWTService;
 use Bradesco\Services\SignatureService;
 use Exception;
-use SignatureException;
+use Illuminate\Support\Facades\DB;
 
 class BradescoBoletoService extends BilletEmissionService implements BoletoInterface
 {
@@ -68,7 +70,23 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
                 )
             );
         } catch (Exception $exception) {
-            throw new SignatureException('Signature error during create.');
+            throw $exception;
         }
     }
+
+    public function billetFromArray(array $data)
+    {
+        DB::beginTransaction();
+        try{
+
+            $payer = resolve(PersonRepository::class)->createOrUpdate($data['payer']);
+            $drawer = resolve(PersonRepository::class)->createOrUpdate($data['drawer']);
+            $billet = resolve(BilletRepository::class)
+                ->create(array_merge($data,['payer_id' => $payer->id, 'drawer_id' => $drawer->id]));
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+        }
+    }
+
 }

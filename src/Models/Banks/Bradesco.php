@@ -1,18 +1,16 @@
 <?php
 
-
+namespace Boleto\Models\Banks;
 use Boleto\Models\Billet;
 use Bradesco\Interfaces\BilletTemplateInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Bradesco extends Model implements BilletTemplateInterface
+class Bradesco implements BilletTemplateInterface
 {
     private Billet $billet;
 
     public function __construct(Billet $billet)
     {
-        parent::__construct();
         $this->billet = $billet ?? new Billet();
     }
 
@@ -21,12 +19,12 @@ class Bradesco extends Model implements BilletTemplateInterface
         return $this->billet->agency;
     }
 
-    public function getBairroPagador()
+    public function getBairroPagador(): string
     {
         return $this->billet->payer->address->neighborhood ?? '';
     }
 
-    public function getBairroSacadorAvalista()
+    public function getBairroSacadorAvalista(): string
     {
         return $this->billet->drawer->address->neighborhood ?? '';
     }
@@ -363,7 +361,7 @@ class Bradesco extends Model implements BilletTemplateInterface
 
     public function getVlIOF()
     {
-        return $this->billet->IOF_value;
+        return $this->billet->IOF_value ?? 0;
     }
 
     public function getVlJuros()

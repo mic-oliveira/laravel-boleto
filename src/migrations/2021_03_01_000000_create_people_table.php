@@ -12,7 +12,7 @@ class CreatePeopleTable extends Migration
         Schema::create('people', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('cpf_cnpj');
+            $table->bigInteger('cpf_cnpj');
             $table->softDeletes();
             $table->timestamps();
         });
