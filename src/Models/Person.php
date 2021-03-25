@@ -20,12 +20,12 @@ class Person extends Model
 
     public function getCpfcnpfAttribute()
     {
-        return substr($this->attributes['cpf_cnpf'],0,-1);
+        return substr($this->attributes['cpf_cnpj'],0,-1);
     }
 
     public function getCpfcnpjIndAttribute()
     {
-        return substr($this->attributes['cpf_cnpf'],-1,1);
+        return substr($this->attributes['cpf_cnpj'],-1,1);
     }
 
     public function billets()
@@ -33,9 +33,9 @@ class Person extends Model
         return $this->hasMany(Billet::class,'payer_id');
     }
 
-    public function getEmailAttribute()
+    public function getMailAttribute()
     {
-        return $this->emails->email;
+        return $this->email->email;
     }
 
     public function address(): HasOne
@@ -43,7 +43,7 @@ class Person extends Model
         return $this->hasOne(Address::class, 'person_id');
     }
 
-    public function emails()
+    public function email()
     {
         return $this->hasOne(Email::class, 'person_id');
     }

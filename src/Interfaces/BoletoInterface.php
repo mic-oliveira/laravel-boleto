@@ -1,5 +1,6 @@
 <?php
 
+namespace Boleto\Interfaces;
 
 use Bradesco\Interfaces\BilletTemplateInterface;
 

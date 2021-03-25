@@ -7,18 +7,10 @@
             "email": "oliveiramichael@outlook.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./api-bradesco",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
     "require": {
         "php": "^7.4",
-      "ext-json": "*"
+      "ext-json": "*",
+        "michaelferreira/bradesco-boleto": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.13",

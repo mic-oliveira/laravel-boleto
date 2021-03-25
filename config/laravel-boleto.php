@@ -25,12 +25,12 @@ return [
      |  CAMINHO DO CERTIFICADO
      |------------------------------------------------------------------------------------------------------------------
      */
-    'bradesco_certificate_path' => env('BRADESCO_CERTIFICATE_PATH'),
+    'bradesco_certificate_path' => env('BRADESCO_CERTIFICATE_PATH', __DIR__.'/../nettel.teste.com.key.pem'),
     /*
      |------------------------------------------------------------------------------------------------------------------
      |  SENHA DO CERTIFICADO
      |------------------------------------------------------------------------------------------------------------------
      */
-    'bradesco_certificate_pass' => env('BRADESCO_CERTIFICATE_PASS')
+    'bradesco_certificate_pass' => env('BRADESCO_CERTIFICATE_PASS', '')
 
 ];

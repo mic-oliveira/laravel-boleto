@@ -4,14 +4,15 @@
 namespace Boleto\Repositories\Eloquent;
 
 
+use Boleto\Models\Fine;
 use Boleto\Repositories\EloquentRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class FineRepository extends EloquentRepository
 {
-    public function __construct(Model $model)
+    public function __construct()
     {
-        parent::__construct($model);
+        parent::__construct(new Fine());
     }
 
     public function get()

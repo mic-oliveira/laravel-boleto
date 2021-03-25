@@ -51,12 +51,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getCepPagador()
     {
-        return $this->billet->payer->address->cep;
+        return $this->billet->payer->address->cep ?? 0;
     }
 
     public function getCepSacadorAvalista()
     {
-        return $this->billet->drawer->address->cep;
+        return $this->billet->drawer->address->cep ?? 0;
     }
 
     public function getCodigoMoeda()
@@ -66,12 +66,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getComplementoCepPagador()
     {
-        return $this->billet->payer->address->cep_complement;
+        return $this->billet->payer->address->cep_complement ?? 0;
     }
 
     public function getComplementoCepSacadorAvalista()
     {
-        return $this->billet->drawer->address->cep_complement;
+        return $this->billet->drawer->address->cep_complement ?? 0;
     }
 
     public function getComplementoLogradouroPagador()
@@ -81,7 +81,7 @@ class Bradesco implements BilletTemplateInterface
 
     public function getComplementoLogradouroSacadorAvalista()
     {
-        return $this->billet->drawer->address->complement;
+        return $this->billet->drawer->address->complement ?? 0;
     }
 
     public function getControleParticipante()
@@ -96,27 +96,27 @@ class Bradesco implements BilletTemplateInterface
 
     public function getDataLimiteDesconto1()
     {
-        return $this->billet->discounts->get(0)->date_limit;
+        return $this->billet->discounts->get(0)->date_limit ?? '';
     }
 
     public function getDataLimiteDesconto2()
     {
-        return $this->billet->discounts->get(1)->date_limit;
+        return $this->billet->discounts->get(1)->date_limit ?? '';
     }
 
     public function getDataLimiteDesconto3()
     {
-        return $this->billet->discounts->get(2)->date_limit;
+        return $this->billet->discounts->get(2)->date_limit ?? '';
     }
 
     public function getDddPagador()
     {
-        return $this->billet->payer->phone->ddd;
+        return $this->billet->payer->phone->ddd ?? '';
     }
 
     public function getDddSacadorAvalista()
     {
-        return $this->billet->drawer->phone->ddd;
+        return $this->billet->drawer->phone->ddd ?? '';
     }
 
     public function getDtEmissaoTitulo()
@@ -141,12 +141,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getEndEletronicoPagador()
     {
-        return $this->billet->payer->email;
+        return $this->billet->payer->mail;
     }
 
     public function getEndEletronicoSacadorAvalista()
     {
-        return $this->billet->drawer->email;
+        return $this->billet->drawer->mail;
     }
 
     public function getFilialCPFCNPJ()

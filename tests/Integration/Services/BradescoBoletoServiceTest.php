@@ -4,6 +4,7 @@
 namespace Boleto\Tests\Integration\Services;
 
 
+use Boleto\Models\Person;
 use Boleto\Services\BradescoBoletoService;
 use Boleto\Tests\TestCase;
 
@@ -21,7 +22,7 @@ class BradescoBoletoServiceTest extends TestCase
     {
         $data = [
             'bank_id' => null,
-            'bank' => 254135,
+            'bank' => 'BRADESCO',
             'agency' => 65321,
             'title_number' => 85462122,
             'title_type' => 9,
@@ -43,6 +44,7 @@ class BradescoBoletoServiceTest extends TestCase
             'cpfcnpj_branch' => 57,
             'negotiation_number' => 95656463154564983,
             'iof_value' => 0,
+            'nominal_value' => 15000,
             'layout_version' => 1,
             'payer' => [
                 'name' => 'Cliente Teste',
@@ -76,17 +78,17 @@ class BradescoBoletoServiceTest extends TestCase
                 [
                     'value' => 0,
                     'percent' => 0,
-                    'limit_date' => 0
+                    'limit_date' => null
                 ],
                 [
                     'value' => 0,
                     'percent' => 0,
-                    'limit_date' => 0
+                    'limit_date' => null
                 ],
                 [
                     'value' => 0,
                     'percent' => 0,
-                    'limit_date' => 0
+                    'limit_date' => null
                 ]
             ],
             'bonus' => [
@@ -105,7 +107,7 @@ class BradescoBoletoServiceTest extends TestCase
                 'limit_date' => 0
             ]
         ];
-
+        dump(config('boleto.bradesco_certificate_path'));
         $this->assertTrue($this->service->charge($data));
     }
 

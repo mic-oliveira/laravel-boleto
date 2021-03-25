@@ -41,17 +41,8 @@ class PersonRepository extends EloquentRepository
 
     public function createOrUpdate(array $data): Model
     {
-        $query = $this->get()->toQuery()->where('cpf_cnpj','=',$data['cpf_cnpj']);
-        $person = $query->exists() ? $this->update($data, $query->get()->first()->id) : $this->create($data);
-        array_key_exists('phone', $data) ? resolve(PhoneRepository::class)->createOrUpdate($data['phone'])
-            : resolve(PhoneRepository::class)->create(['ddd' => 0, 'number' => 0, 'person_id' => $person->id]);
-        array_key_exists('address', $data) ? resolve(AddressRepository::class)->createOrUpdate($data['address'])
-            : null;
-        array_key_exists('email', $data) ?
-            resolve(EmailRepository::class)
-                ->createOrUpdate(array_key_exists($data['email'],['person_id' => $person->id]))
-            : null;
-        return $person;
+        $query = Person::where('cpf_cnpj','=',$data['cpf_cnpj']);
+        return $query->exists() ? $this->update($data, $query->get()->first()->id) : $this->create($data);
     }
 
 }

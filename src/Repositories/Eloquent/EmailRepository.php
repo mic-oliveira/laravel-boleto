@@ -43,7 +43,7 @@ class EmailRepository extends EloquentRepository
 
     public function createOrUpdate($data)
     {
-        $query = $this->get()->toQuery()->where('person_id', '=', $data['person_id']);
+        $query = Email::where('person_id', '=', $data['person_id']);
         return $query->exists() ? $query->update(['email' => $data['email']]) : $this->create($data);
     }
 

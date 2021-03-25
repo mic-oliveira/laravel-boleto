@@ -2,14 +2,17 @@
 
 namespace Boleto\Services;
 
+use Boleto\Interfaces\BoletoInterface;
 use Boleto\Models\Banks\Bradesco;
+use Boleto\Models\Email;
+use Boleto\Repositories\Eloquent\AddressRepository;
 use Boleto\Repositories\Eloquent\BilletRepository;
 use Boleto\Repositories\Eloquent\BonusRepository;
 use Boleto\Repositories\Eloquent\DiscountRepository;
+use Boleto\Repositories\Eloquent\EmailRepository;
 use Boleto\Repositories\Eloquent\FeeRepository;
 use Boleto\Repositories\Eloquent\FineRepository;
 use Boleto\Repositories\Eloquent\PersonRepository;
-use BoletoInterface;
 use Bradesco\Interfaces\BilletTemplateInterface;
 use Bradesco\Models\Signature;
 use Bradesco\Services\AuthService;
@@ -22,7 +25,7 @@ use Illuminate\Support\Facades\DB;
 class BradescoBoletoService extends BilletEmissionService implements BoletoInterface
 {
     private Signature $signature;
-    private string $jwtService;
+    private JWTService $jwtService;
 
     public function __construct(JWTService $JWTService, Signature $signature)
     {
@@ -45,8 +48,8 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
     {
         try{
             $token = $this->jwtService->createJWTToken(
-                config('laravel-boleto.bradesco_certificate_path'),
-                config('laravel-boleto.bradesco_certificate_pass')
+                config('boleto.bradesco_certificate_path'),
+                config('boleto.bradesco_certificate_pass')
             );
             $this->signature->setVerb($verb ?? 'POST');
             $this->signature->setAccessToken((new AuthService())->accessToken($token));
@@ -75,10 +78,18 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
     public function billetFromArray(array $data)
     {
         $payer = resolve(PersonRepository::class)->createOrUpdate($data['payer']);
+        resolve(EmailRepository::class)
+            ->createOrUpdate(['email' => $data['payer']['email'],'person_id' => $payer->id]);
+        resolve(AddressRepository::class)
+            ->createOrUpdate(array_merge($data['payer']['address'],['person_id' => $payer->id]));
         $drawer = resolve(PersonRepository::class)->createOrUpdate($data['drawer']);
+        resolve(EmailRepository::class)
+            ->createOrUpdate(['email' => $data['drawer']['email'],'person_id' => $drawer->id]);
+        resolve(AddressRepository::class)
+            ->createOrUpdate(array_merge($data['drawer']['address'],['person_id' => $drawer->id]));
         $billet = resolve(BilletRepository::class)
             ->create(array_merge($data,['payer_id' => $payer->id, 'drawer_id' => $drawer->id]));
-        resolve(DiscountRepository::class)->createDiscounts(array_merge($data['discounts']));
+        resolve(DiscountRepository::class)->createDiscounts($data['discounts'],$billet->id);
         resolve(BonusRepository::class)->create(array_merge($data['bonus'], ['billet_id' => $billet->id]));
         resolve(FineRepository::class)->create(array_merge($data['fine'], ['billet_id' => $billet->id]));
         resolve(FeeRepository::class)->create(array_merge($data['fee'], ['billet_id' => $billet->id]));

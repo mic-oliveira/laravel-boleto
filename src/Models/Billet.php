@@ -2,8 +2,8 @@
 
 namespace Boleto\Models;
 
-use Bradesco\Models\Bonus;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,6 +15,7 @@ class Billet extends Model
     protected $table = 'billets';
 
     protected $fillable = [
+        'bank',
         'agency',
         'title_number',
         'title_type',
@@ -42,14 +43,14 @@ class Billet extends Model
         'layout_version',
     ];
 
-    public function payer(): HasOne
+    public function payer(): BelongsTo
     {
-        return $this->hasOne(Person::class, 'billet_id');
+        return $this->belongsTo(Person::class, 'payer_id');
     }
 
-    public function drawer(): HasOne
+    public function drawer(): BelongsTo
     {
-        return $this->hasOne(Person::class, 'billet_id');
+        return $this->belongsTo(Person::class, 'drawer_id');
     }
 
     public function fee(): HasOne
@@ -69,6 +70,6 @@ class Billet extends Model
 
     public function bonus(): HasOne
     {
-        return $this->hasOne(Bonus::class);
+        return $this->hasOne(Bonus::class, 'billet_id');
     }
 }
