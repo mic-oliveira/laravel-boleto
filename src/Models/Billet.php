@@ -2,6 +2,8 @@
 
 namespace Boleto\Models;
 
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,17 +32,23 @@ class Billet extends Model
         'emission_date',
         'due_date',
         'cpfcnpj_number',
+        'cpfcnpj_control',
         'term_limit',
         'term_type',
         'protest_limit',
         'protest_type',
         'cpfcnpj_branch',
         'negotiation_number',
+        'rebate_value',
         'iof_value',
         'nominal_value',
         'payer_id',
         'drawer_id',
         'layout_version',
+    ];
+
+    protected $casts = [
+        'emission_date' => 'date:d-m-Y'
     ];
 
     public function payer(): BelongsTo

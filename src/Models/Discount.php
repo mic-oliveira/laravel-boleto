@@ -20,6 +20,10 @@ class Discount extends Model
         'billet_id',
     ];
 
+    protected $casts = [
+        'limit_date' => 'date:d-m-Y'
+    ];
+
     public function billet(): BelongsTo
     {
         return $this->belongsTo(Billet::class, 'billet_id');

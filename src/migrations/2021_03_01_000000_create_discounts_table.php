@@ -11,7 +11,7 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->string('value')->default(0);
+            $table->integer('value')->default(0);
             $table->integer('percent')->default(0);
             $table->date('limit_date')->nullable();
             $table->foreignId('billet_id')->references('billets');

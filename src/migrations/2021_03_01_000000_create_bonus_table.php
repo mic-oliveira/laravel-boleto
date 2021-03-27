@@ -11,7 +11,7 @@ class CreateBonusTable extends Migration
     {
         Schema::create('bonus', function (Blueprint $table) {
             $table->id();
-            $table->string('value');
+            $table->integer('value');
             $table->integer('percent');
             $table->date('limit_date');
             $table->foreignId('billet_id')->references('billets');

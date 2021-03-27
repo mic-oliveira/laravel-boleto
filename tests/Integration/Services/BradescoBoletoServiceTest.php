@@ -7,6 +7,7 @@ namespace Boleto\Tests\Integration\Services;
 use Boleto\Models\Person;
 use Boleto\Services\BradescoBoletoService;
 use Boleto\Tests\TestCase;
+use Bradesco\Services\AuthService;
 
 class BradescoBoletoServiceTest extends TestCase
 {
@@ -23,10 +24,10 @@ class BradescoBoletoServiceTest extends TestCase
         $data = [
             'bank_id' => null,
             'bank' => 'BRADESCO',
-            'agency' => 65321,
-            'title_number' => 85462122,
-            'title_type' => 9,
-            'currency_code' => 1,
+            'agency' => 3995,
+            'title_number' => "2346",
+            'title_type' => 2,
+            'currency_code' => 9,
             'product_id' => 9,
             'client_number' => '52651',
             'partial_payment_id' => 0,
@@ -34,45 +35,50 @@ class BradescoBoletoServiceTest extends TestCase
             'emission_form' => 1,
             'currency_amount' => 1500,
             'register_title' => 52662,
-            'emission_date' => '2020-01-03',
-            'due_date' => now()->toDateString(),
+            'emission_date' => '2021-02-12',
+            'due_date' => '2021-02-14',
             'cpfcnpj_number' => 99999999999,
+            'cpfcnpj_control' => 1,
             'term_limit' => 0,
             'term_type' => 0,
             'protest_limit' => 0,
             'protest_type' => 0,
             'cpfcnpj_branch' => 57,
-            'negotiation_number' => 95656463154564983,
+            'negotiation_number' => 399500000000075557,
             'iof_value' => 0,
             'nominal_value' => 15000,
             'layout_version' => 1,
             'payer' => [
-                'name' => 'Cliente Teste',
-                'cpf_cnpj' => 11111111111,
+                'name' => 'Natália Loren Stachechen',
+                'cpf_cnpj' => 2,
                 'address' => [
-                    'street' => 'Rua Teste',
+                    'street' => 'Possídio Salomoni',
                     'complement' => 'casa 2',
                     'number' => 120,
-                    'neighborhood' => 'CENTRO',
-                    'cep' => 28470000,
+                    'neighborhood' => 'São Vicente',
+                    'cep' => 85506320,
                     'city' => 'Araruama',
                     'UF' => 'RJ'
                 ],
-                'email' => 'teste@teste.com',
+                'phones' => [
+                    'ddd' => 46,
+                    'number' => 987456321
+                ],
+                'email' => null,
             ],
             'drawer' => [
                 'name' => 'Cliente Teste',
                 'cpf_cnpj' => 11111111111,
                 'address' => [
-                    'street' => 'Rua Teste',
-                    'complement' => 'casa 2',
-                    'number' => 120,
-                    'neighborhood' => 'CENTRO',
-                    'cep' => 28470000,
-                    'city' => 'Araruama',
-                    'UF' => 'RJ'
+                    'street' => null,
+                    'complement' => null,
+                    'number' => null,
+                    'neighborhood' => null,
+                    'cep' => null,
+                    'city' => null,
+                    'UF' => null
                 ],
-                'email' => 'teste@teste.com',
+                'email' => null,
             ],
             'discounts' => [
                 [
@@ -107,8 +113,10 @@ class BradescoBoletoServiceTest extends TestCase
                 'limit_date' => 0
             ]
         ];
-        dump(config('boleto.bradesco_certificate_path'));
-        $this->assertTrue($this->service->charge($data));
+        dump((new AuthService())->accessToken())
+        dump($this->service->makeTemplate($data)->parse());
+
+        // $this->assertTrue($this->service->charge($data));
     }
 
 }

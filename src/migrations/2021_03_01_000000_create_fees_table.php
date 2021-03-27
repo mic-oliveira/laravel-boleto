@@ -11,7 +11,7 @@ class CreateFeesTable extends Migration
     {
         Schema::create('fees', function (Blueprint $table) {
             $table->id();
-            $table->string('value')->default(0);
+            $table->integer('value')->default(0);
             $table->integer('percent')->default(0);
             $table->integer('limit_date')->default(0);
             $table->string('days')->default(0);

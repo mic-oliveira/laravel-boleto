@@ -26,11 +26,13 @@ class CreateBilletsTable extends Migration
             $table->date('emission_date');
             $table->date('due_date');
             $table->bigInteger('cpfcnpj_number');
+            $table->integer('cpfcnpj_control')->default(0);
             $table->integer('term_limit')->default(0);
             $table->integer('term_type')->default(0);
             $table->integer('protest_limit')->default(0);
             $table->integer('protest_type')->default(0);
             $table->integer('cpfcnpj_branch');
+            $table->integer('rebate_value')->default(0);
             $table->bigInteger('negotiation_number');
             $table->bigInteger('iof_value')->default(0);
             $table->bigInteger('nominal_value');

@@ -23,7 +23,7 @@ class Person extends Model
         return substr($this->attributes['cpf_cnpj'],0,-1);
     }
 
-    public function getCpfcnpjIndAttribute()
+    public function getCpfcnpjIndAttribute(): int
     {
         return substr($this->attributes['cpf_cnpj'],-1,1);
     }
@@ -35,7 +35,7 @@ class Person extends Model
 
     public function getMailAttribute()
     {
-        return $this->email->email;
+        return $this->email->email ?? null;
     }
 
     public function address(): HasOne
