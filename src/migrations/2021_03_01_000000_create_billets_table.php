@@ -18,7 +18,7 @@ class CreateBilletsTable extends Migration
             $table->integer('currency_code');
             $table->integer('product_id');
             $table->string('client_number');
-            $table->integer('partial_payment_id');
+            $table->integer('partial_payment_id')->nullable();
             $table->integer('amount_partial_payment')->default(0);
             $table->integer('emission_form');
             $table->bigInteger('currency_amount')->default(0);

@@ -29,15 +29,15 @@ class BradescoBoletoServiceTest extends TestCase
             'title_type' => 2,
             'currency_code' => 9,
             'product_id' => 9,
-            'client_number' => '52651',
-            'partial_payment_id' => 0,
+            'client_number' => '2799',
+            'partial_payment_id' => null,
             'amount_partial_payment' => 0,
-            'emission_form' => 1,
-            'currency_amount' => 1500,
-            'register_title' => 52662,
+            'emission_form' => 0,
+            'currency_amount' => 0,
+            'register_title' => 1,
             'emission_date' => '2021-02-12',
             'due_date' => '2021-02-14',
-            'cpfcnpj_number' => 99999999999,
+            'cpfcnpj_number' => 38052160,
             'cpfcnpj_control' => 1,
             'term_limit' => 0,
             'term_type' => 0,
@@ -50,25 +50,25 @@ class BradescoBoletoServiceTest extends TestCase
             'layout_version' => 1,
             'payer' => [
                 'name' => 'Natália Loren Stachechen',
-                'cpf_cnpj' => 2,
+                'cpf_cnpj' => 13528086921,
                 'address' => [
                     'street' => 'Possídio Salomoni',
-                    'complement' => 'casa 2',
-                    'number' => 120,
+                    'complement' => null,
+                    'number' => '548',
                     'neighborhood' => 'São Vicente',
                     'cep' => 85506320,
-                    'city' => 'Araruama',
-                    'UF' => 'RJ'
+                    'city' => 'Pato Branco',
+                    'UF' => 'PR'
                 ],
-                'phones' => [
+                'phone' => [
                     'ddd' => 46,
                     'number' => 987456321
                 ],
                 'email' => null,
             ],
             'drawer' => [
-                'name' => 'Cliente Teste',
-                'cpf_cnpj' => 11111111111,
+                'name' => null,
+                'cpf_cnpj' => null,
                 'address' => [
                     'street' => null,
                     'complement' => null,
@@ -100,23 +100,23 @@ class BradescoBoletoServiceTest extends TestCase
             'bonus' => [
                 'value' => 0,
                 'percent' => 0,
-                'limit_date' => 0
+                'limit_date' => null
             ],
             'fine' => [
                 'value' => 0,
                 'percent' => 0,
-                'limit_date' => 0
+                'limit_date' => null
             ],
             'fee' => [
                 'value' => 0,
                 'percent' => 0,
-                'limit_date' => 0
+                'limit_date' => null
             ]
         ];
-        dump((new AuthService())->accessToken())
+        //dump((new AuthService())->accessToken())
         dump($this->service->makeTemplate($data)->parse());
-
-        // $this->assertTrue($this->service->charge($data));
+        file_put_contents('parse.txt',json_encode($this->service->makeTemplate($data)->parse()));
+        dump($this->service->charge($data)->getBody()->getContents());
     }
 
 }

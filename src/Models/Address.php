@@ -29,6 +29,6 @@ class Address extends Model
     }
     public function getCepComplementAttribute()
     {
-        return substr($this->cep,-3,3);
+        return substr($this->attributes['cep'],-3,3);
     }
 }

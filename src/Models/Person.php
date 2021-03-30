@@ -18,14 +18,14 @@ class Person extends Model
         'cpf_cnpj'
     ];
 
-    public function getCpfcnpfAttribute()
+    public function getCpfcnpjAttribute(): int
     {
-        return substr($this->attributes['cpf_cnpj'],0,-1);
+        return intval(substr($this->attributes['cpf_cnpj'],0,-1));
     }
 
     public function getCpfcnpjIndAttribute(): int
     {
-        return substr($this->attributes['cpf_cnpj'],-1,1);
+        return intval(substr($this->attributes['cpf_cnpj'],-1,1));
     }
 
     public function billets()
@@ -43,8 +43,13 @@ class Person extends Model
         return $this->hasOne(Address::class, 'person_id');
     }
 
-    public function email()
+    public function email(): HasOne
     {
         return $this->hasOne(Email::class, 'person_id');
+    }
+
+    public function phone(): HasOne
+    {
+        return $this->hasOne(Phone::class, 'person_id');
     }
 }

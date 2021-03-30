@@ -11,8 +11,8 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->bigInteger('cpf_cnpj');
+            $table->string('name')->nullable();
+            $table->bigInteger('cpf_cnpj')->nullable()->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

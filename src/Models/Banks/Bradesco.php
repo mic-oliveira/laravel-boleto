@@ -38,17 +38,17 @@ class Bradesco implements BilletTemplateInterface
 
     public function getCdIndCpfcnpjPagador(): int
     {
-        return intval($this->billet->payer->cpfcnpf_ind);
+        return intval($this->billet->payer->cpfcnpj_ind);
     }
 
-    public function getCdIndCpfcnpjSacadorAvalista(): int
+    public function getCdIndCpfcnpjSacadorAvalista()
     {
-        return intval($this->billet->drawer->cpfcnpf_ind);
+        return $this->billet->drawer->cpfcnpj_ind ?? '';
     }
 
-    public function getCdPagamentoParcial(): int
+    public function getCdPagamentoParcial():string
     {
-        return $this->billet->partial_payment_id;
+        return $this->billet->partial_payment_id ?? '';
     }
 
     public function getCepPagador(): int
@@ -113,12 +113,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getDddPagador()
     {
-        return $this->billet->payer->phone->ddd ?? '';
+        return intval($this->billet->payer->phone->ddd ?? 0);
     }
 
     public function getDddSacadorAvalista()
     {
-        return $this->billet->drawer->phone->ddd ?? '';
+        return intval($this->billet->drawer->phone->ddd ?? 0);
     }
 
     public function getDtEmissaoTitulo()
@@ -128,7 +128,7 @@ class Bradesco implements BilletTemplateInterface
 
     public function getDtLimiteBonificacao()
     {
-        return $this->billet->bonus->limit_date;
+        return $this->billet->bonus->limit_date ?? '';
     }
 
     public function getDtVencimentoTitulo()
@@ -168,22 +168,22 @@ class Bradesco implements BilletTemplateInterface
 
     public function getLogradouroPagador(): string
     {
-        return $this->billet->payer->address->street;
+        return $this->billet->payer->address->street ?? '';
     }
 
     public function getLogradouroSacadorAvalista()
     {
-        return $this->billet->drawer->address->street;
+        return $this->billet->drawer->address->street ?? '';
     }
 
     public function getMunicipioPagador()
     {
-        return $this->billet->payer->address->city;
+        return $this->billet->payer->address->city ?? '';
     }
 
     public function getMunicipioSacadorAvalista()
     {
-        return $this->billet->drawer->address->city;
+        return $this->billet->drawer->address->city ?? '';
     }
 
     public function getNomePagador()
@@ -193,12 +193,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getNomeSacadorAvalista()
     {
-        return $this->billet->drawer->name;
+        return $this->billet->drawer->name ?? '';
     }
 
     public function getNuCPFCNPJ()
     {
-        return $this->billet->cpfcnpf_number;
+        return $this->billet->cpfcnpj_number;
     }
 
     public function getNuCliente()
@@ -208,12 +208,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getNuCpfcnpjPagador()
     {
-        return intval($this->billet->payer->cpf_cnpj);
+        return intval($this->billet->payer->cpfcnpj);
     }
 
     public function getNuCpfcnpjSacadorAvalista()
     {
-        return intval($this->billet->drawer->cpf_cnpf);
+        return intval($this->billet->drawer->cpfcnpj);
     }
 
     public function getNuLogradouroPagador()
@@ -223,7 +223,7 @@ class Bradesco implements BilletTemplateInterface
 
     public function getNuLogradouroSacadorAvalista()
     {
-        return $this->billet->drawer->address->number;
+        return $this->billet->drawer->address->number ?? '';
     }
 
     public function getNuNegociacao()
@@ -263,7 +263,7 @@ class Bradesco implements BilletTemplateInterface
 
     public function getPrazoBonificacao()
     {
-        return $this->formatDate($this->billet->bonus->date_limit);
+        return intval($this->formatDate($this->billet->bonus->days));
     }
 
     public function getPrazoDecurso()
@@ -278,12 +278,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getQtdeDiasJuros()
     {
-        return $this->billet->fee->days;
+        return intval($this->billet->fee->days);
     }
 
     public function getQtdeDiasMulta()
     {
-        return $this->billet->fine->days;
+        return intval($this->billet->fine->days);
     }
 
     public function getQtdePagamentoParcial()
@@ -293,7 +293,7 @@ class Bradesco implements BilletTemplateInterface
 
     public function getQuantidadeMoeda()
     {
-        return $this->billet->currency_amount;
+        return $this->billet->currency_amount ?? 0;
     }
 
     public function getRegistraTitulo()
@@ -303,12 +303,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getTelefonePagador()
     {
-        return $this->billet->payer->phone->number ?? 0;
+        return intval($this->billet->payer->phone->number ?? 0);
     }
 
     public function getTelefoneSacadorAvalista()
     {
-        return $this->billet->drawer->phone->number ?? 0;
+        return intval($this->billet->drawer->phone->number ?? 0);
     }
 
     public function getTipoDecurso()
@@ -323,12 +323,12 @@ class Bradesco implements BilletTemplateInterface
 
     public function getUfPagador()
     {
-        return $this->billet->payer->address->UF;
+        return $this->billet->payer->address->UF ?? '';
     }
 
     public function getUfSacadorAvalista()
     {
-        return $this->billet->drawer->address->UF;
+        return $this->billet->drawer->address->UF ?? '';
     }
 
     public function getVersaoLayout()
@@ -338,47 +338,47 @@ class Bradesco implements BilletTemplateInterface
 
     public function getVlAbatimento()
     {
-        return $this->billet->rebate_value ?? 0;
+        return intval($this->billet->rebate_value);
     }
 
-    public function getVlBonificacao()
+    public function getVlBonificacao(): int
     {
-        return $this->billet->bonus->value ?? 0;
+        return intval($this->billet->bonus->value);
     }
 
     public function getVlDesconto1()
     {
-        return $this->billet->discounts->get(0)->value ?? 0;
+        return intval($this->billet->discounts->get(0)->value);
     }
 
     public function getVlDesconto2()
     {
-        return $this->billet->discounts->get(1)->value ?? 0;
+        return intval($this->billet->discounts->get(1)->value);
     }
 
     public function getVlDesconto3()
     {
-        return $this->billet->discounts->get(2)->value ?? 0;
+        return intval($this->billet->discounts->get(2)->value);
     }
 
     public function getVlIOF()
     {
-        return $this->billet->IOF_value ?? 0;
+        return intval($this->billet->IOF_value);
     }
 
     public function getVlJuros()
     {
-        return $this->billet->fee->value;
+        return intval($this->billet->fee->value);
     }
 
     public function getVlMulta()
     {
-        return $this->billet->fine->value;
+        return intval($this->billet->fine->value);
     }
 
     public function getVlNominalTitulo()
     {
-        return $this->billet->nominal_value;
+        return intval($this->billet->nominal_value);
     }
 
     public function createBillet(array $billet)
