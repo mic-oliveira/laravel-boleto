@@ -31,7 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Boleto\\Provider\\ServiceProvider"
+                "Boleto\\Providers\\ServiceProvider"
             ]
         }
     },
