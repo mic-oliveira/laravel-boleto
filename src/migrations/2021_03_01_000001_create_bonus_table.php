@@ -14,7 +14,7 @@ class CreateBonusTable extends Migration
             $table->integer('value');
             $table->integer('percent');
             $table->date('limit_date')->nullable();
-            $table->foreignId('billet_id')->references('billets');
+            $table->foreignId('billet_id')->constrained('billets');
             $table->softDeletes();
             $table->timestamps();
         });
