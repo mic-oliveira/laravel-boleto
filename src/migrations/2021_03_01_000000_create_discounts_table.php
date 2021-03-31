@@ -14,7 +14,7 @@ class CreateDiscountsTable extends Migration
             $table->integer('value')->default(0);
             $table->integer('percent')->default(0);
             $table->date('limit_date')->nullable();
-            $table->foreignId('billet_id')->references('billets');
+            $table->foreignId('billet_id')->constrained('billets');
             $table->softDeletes();
             $table->timestamps();
         });

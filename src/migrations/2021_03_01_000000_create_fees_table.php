@@ -15,7 +15,7 @@ class CreateFeesTable extends Migration
             $table->integer('percent')->default(0);
             $table->integer('limit_date')->nullable();
             $table->string('days')->default(0);
-            $table->foreignId('billet_id')->references('billets');
+            $table->foreignId('billet_id')->constrained('billets');
             $table->softDeletes();
             $table->timestamps();
         });
