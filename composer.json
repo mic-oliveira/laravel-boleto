@@ -32,5 +32,6 @@
         "providers": [
             "Boleto\\Provider\\ServiceProvider"
         ]
-    }
+    },
+    "minimum-stability": "stable"
 }
