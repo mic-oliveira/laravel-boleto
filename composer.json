@@ -28,10 +28,12 @@
             "Boleto\\Tests\\": "./tests"
         }
     },
-    "laravel": {
-        "providers": [
-            "Boleto\\Provider\\ServiceProvider"
-        ]
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Boleto\\Provider\\ServiceProvider"
+            ]
+        }
     },
     "minimum-stability": "stable"
 }
