@@ -9,7 +9,7 @@ class CreatePeopleTable extends Migration
 {
     public function up()
     {
-        Schema::create('people', function (Blueprint $table) {
+        Schema::connection(config('boleto.connection'))->create('people', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
             $table->bigInteger('cpf_cnpj')->nullable()->default(0);

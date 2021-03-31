@@ -9,7 +9,7 @@ class CreatePhonesTable extends Migration
 {
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::connection(config('boleto.connection'))->create('phones', function (Blueprint $table) {
             $table->id();
             $table->integer('number');
             $table->integer('ddd');

@@ -9,7 +9,7 @@ class CreateDiscountsTable extends Migration
 {
     public function up()
     {
-        Schema::create('discounts', function (Blueprint $table) {
+        Schema::connection(config('boleto.connection'))->create('discounts', function (Blueprint $table) {
             $table->id();
             $table->integer('value')->default(0);
             $table->integer('percent')->default(0);

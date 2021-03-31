@@ -9,7 +9,7 @@ class CreateBonusTable extends Migration
 {
     public function up()
     {
-        Schema::create('bonus', function (Blueprint $table) {
+        Schema::connection(config('boleto.connection'))->create('bonus', function (Blueprint $table) {
             $table->id();
             $table->integer('value');
             $table->integer('percent');

@@ -9,4 +9,5 @@ interface BoletoInterface
     public function createBillet(BilletTemplateInterface $billetTemplate);
     public function updateBillet(BilletTemplateInterface $billetTemplate);
     public function cancelBillet();
+    public function charge(array $data);
 }

@@ -8,7 +8,7 @@ class CreateAddressesTable extends Migration
 {
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::connection(config('boleto.connection'))->create('addresses', function (Blueprint $table) {
             $table->id();
             $table->string('street')->nullable();
             $table->string('complement')->nullable();

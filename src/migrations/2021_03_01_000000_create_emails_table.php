@@ -9,7 +9,7 @@ class CreateEmailsTable extends Migration
 {
     public function up()
     {
-        Schema::create('emails', function (Blueprint $table) {
+        Schema::connection(config('boleto.connection'))->create('emails', function (Blueprint $table) {
             $table->id();
             $table->string('email');
             $table->foreignId('person_id')->constrained('people');
