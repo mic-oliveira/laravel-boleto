@@ -40,20 +40,19 @@ class BoletoConsole extends Command
      */
     public function handle()
     {
-        //
         if($this->option('force'))
         {
             $this->call('migrate:fresh',
                 [
                     '--database'=>config('boleto.connection'),
-                    '--path'=>'/vendor/michaelferreira/laravel-boleto/src/database/migrations'
+                    '--path'=>'/vendor/michaelferreira/laravel-boleto/src/migrations'
                 ]
             );
         } else {
             $this->call('migrate',
                 [
                     '--database'=>config('boleto.connection'),
-                    '--path'=>'/vendor/michaelferreira/laravel-boleto/src/database/migrations'
+                    '--path'=>'/vendor/michaelferreira/laravel-boleto/src/migrations'
                 ]
             );
         }
