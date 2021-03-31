@@ -20,7 +20,6 @@ class CreateBonusTable extends Migration
         });
     }
 
-
     public function down()
     {
         Schema::dropIfExists('bonus');
