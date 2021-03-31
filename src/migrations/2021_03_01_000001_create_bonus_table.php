@@ -22,6 +22,6 @@ class CreateBonusTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('discounts');
+        Schema::dropIfExists('bonus');
     }
 }
