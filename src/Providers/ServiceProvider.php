@@ -17,7 +17,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             __DIR__ . '/../../config/laravel-boleto.php' => config_path('boleto.php'),
         ]);
         $this->loadMigrationsFrom([
-            __DIR__ . '/../../database/migrations'
+            __DIR__ . '/../migrations'
         ]);
         if ($this->app->runningInConsole()) {
             $this->commands([
