@@ -39,6 +39,9 @@ class CreateBilletsTable extends Migration
             $table->foreignId('payer_id')->constrained('people');
             $table->foreignId('drawer_id')->constrained('people');
             $table->integer('layout_version')->default(1);
+            $table->string('reference')->nullable();
+            $table->integer('return_code')->nullable();
+            $table->string('return_message')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

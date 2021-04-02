@@ -42,6 +42,7 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
 
     public function createBillet(BilletTemplateInterface $billetTemplate)
     {
+        DB::commit();
         try{
             $this->jwtService->setPayload([
                 'sub' => config('boleto.bradesco_application_id'),
@@ -58,8 +59,11 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
                config('boleto.bradesco_token_ttl'));
             $this->getSignature()->setAccessToken(cache()->get('bradesco_access_token'));
             $this->makeSignature($billetTemplate->parse(),"/v1/boleto/registrarBoleto", "POST");
-            return $this->emit($billetTemplate);
+            $response = $this->emit($billetTemplate);
+            DB::commit();
+            return $response;
         } catch (Exception $exception) {
+            DB::rollBack();
             throw $exception;
         }
     }
@@ -92,7 +96,6 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
 
     public function billetFromArray(array $data)
     {
-        DB::beginTransaction();
         try {
             $payer = $this->makePerson($data['payer']);
             $drawer = $this->makePerson($data['drawer']);
@@ -102,7 +105,6 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
             resolve(BonusRepository::class)->create(array_merge($data['bonus'], ['billet_id' => $billet->id]));
             resolve(FineRepository::class)->create(array_merge($data['fine'], ['billet_id' => $billet->id]));
             resolve(FeeRepository::class)->create(array_merge($data['fee'], ['billet_id' => $billet->id]));
-            DB::commit();
             return $billet;
         } catch (Exception $exception) {
             DB::rollBack();
@@ -127,7 +129,6 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
         try{
             return $this->createBillet($this->makeTemplate($data));
         } catch (Exception $exception) {
-            DB::rollBack();
             throw $exception;
         }
     }
