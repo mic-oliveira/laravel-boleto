@@ -42,7 +42,7 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
 
     public function createBillet(BilletTemplateInterface $billetTemplate)
     {
-        DB::commit();
+        DB::beginTransaction();
         try{
             $this->jwtService->setPayload([
                 'sub' => config('boleto.bradesco_application_id'),
