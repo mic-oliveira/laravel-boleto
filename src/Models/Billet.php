@@ -44,6 +44,8 @@ class Billet extends Model
         'nominal_value',
         'reference',
         'digitable_line',
+        'return_code',
+        'return_message',
         'payer_id',
         'drawer_id',
         'layout_version',
