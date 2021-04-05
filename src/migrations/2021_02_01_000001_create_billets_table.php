@@ -40,6 +40,7 @@ class CreateBilletsTable extends Migration
             $table->foreignId('drawer_id')->constrained('people');
             $table->integer('layout_version')->default(1);
             $table->string('reference')->nullable();
+            $table->string('digitable line')->nullable();
             $table->integer('return_code')->nullable();
             $table->string('return_message')->nullable();
             $table->softDeletes();

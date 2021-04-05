@@ -42,6 +42,8 @@ class Billet extends Model
         'rebate_value',
         'iof_value',
         'nominal_value',
+        'reference',
+        'digitable_line',
         'payer_id',
         'drawer_id',
         'layout_version',

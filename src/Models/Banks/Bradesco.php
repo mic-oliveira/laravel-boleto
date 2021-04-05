@@ -16,6 +16,16 @@ class Bradesco implements BilletTemplateInterface
         $this->billet = $billet ?? new Billet();
     }
 
+    public function getBillet(): Billet
+    {
+        return $this->billet;
+    }
+
+    public function setBillet(Billet $billet): void
+    {
+        $this->billet = $billet;
+    }
+
     public function getAgenciaDestino()
     {
         return $this->billet->agency;

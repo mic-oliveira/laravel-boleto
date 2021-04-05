@@ -59,7 +59,8 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
                config('boleto.bradesco_token_ttl'));
             $this->getSignature()->setAccessToken(cache()->get('bradesco_access_token'));
             $this->makeSignature($billetTemplate->parse(),"/v1/boleto/registrarBoleto", "POST");
-            $response = $this->emit($billetTemplate);
+            $response = json_decode($this->emit($billetTemplate)->getBody()->getContents());
+            $billetTemplate->getBillet()->update(['digitable_line' => $response->linha_digitavel]);
             DB::commit();
             return $response;
         } catch (Exception $exception) {
