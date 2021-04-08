@@ -63,10 +63,12 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
             $billetTemplate->getBillet()->update(['digitable_line' => json_decode($response)->linhaDigitavel]);
             $billetTemplate->getBillet()->update(['return_code' => json_decode($response)->codigoRetorno]);
             $billetTemplate->getBillet()->update(['return_message' => json_decode($response)->mensagemRetorno]);
+            $billetTemplate->getBillet()->update(['bank_id' => json_decode($response)->nuTituloGerado]);
             DB::commit();
             return $response;
         } catch (Exception $exception) {
             DB::rollBack();
+            $billetTemplate->getBillet()->delete();
             throw $exception;
         }
     }

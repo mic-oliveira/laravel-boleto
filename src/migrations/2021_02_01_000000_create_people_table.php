@@ -13,6 +13,7 @@ class CreatePeopleTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->bigInteger('cpf_cnpj')->nullable()->default(0);
+            $table->string('reference')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
