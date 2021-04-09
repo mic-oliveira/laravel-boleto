@@ -2,8 +2,6 @@
 
 namespace Boleto\Models;
 
-use Carbon\Carbon;
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,6 +16,7 @@ class Billet extends Model
 
     protected $fillable = [
         'bank',
+        'bank_id',
         'agency',
         'title_number',
         'title_type',
