@@ -17,4 +17,9 @@ class Phone extends Model
         'ddd',
         'person_id',
     ];
+
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
 }

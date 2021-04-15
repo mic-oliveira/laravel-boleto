@@ -18,4 +18,9 @@ class Bonus extends Model
         'limit_date',
         'billet_id',
     ];
+
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
 }

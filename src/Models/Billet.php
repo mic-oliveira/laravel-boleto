@@ -54,6 +54,11 @@ class Billet extends Model
         'emission_date' => 'date:d-m-Y'
     ];
 
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
+
     public function payer(): BelongsTo
     {
         return $this->belongsTo(Person::class, 'payer_id');

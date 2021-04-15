@@ -23,6 +23,11 @@ class Address extends Model
         'person_id',
     ];
 
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
+
     public function getCepAttribute()
     {
         return substr($this->attributes['cep'],0,5);

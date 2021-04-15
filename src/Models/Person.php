@@ -18,6 +18,11 @@ class Person extends Model
         'cpf_cnpj'
     ];
 
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
+
     public function getCpfcnpjAttribute(): int
     {
         return intval(substr($this->attributes['cpf_cnpj'],0,-1));

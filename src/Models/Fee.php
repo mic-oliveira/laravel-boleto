@@ -20,4 +20,8 @@ class Fee extends Model
         'billet_id',
     ];
 
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
 }

@@ -16,4 +16,8 @@ class Email extends Model
         'person_id'
     ];
 
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
 }

@@ -24,6 +24,11 @@ class Discount extends Model
         'limit_date' => 'date:d-m-Y'
     ];
 
+    public function getConnectionName()
+    {
+        return config('boleto.boleto_connection');
+    }
+
     public function billet(): BelongsTo
     {
         return $this->belongsTo(Billet::class, 'billet_id');
