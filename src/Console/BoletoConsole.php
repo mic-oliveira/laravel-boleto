@@ -44,14 +44,14 @@ class BoletoConsole extends Command
         {
             $this->call('migrate:fresh',
                 [
-                    '--database'=>config('boleto.connection'),
+                    '--database'=>config('boleto.boleto_connection'),
                     '--path'=>'/vendor/michaelferreira/laravel-boleto/src/migrations'
                 ]
             );
         } else {
             $this->call('migrate',
                 [
-                    '--database'=>config('boleto.connection'),
+                    '--database'=>config('boleto.boleto_connection'),
                     '--path'=>'/vendor/michaelferreira/laravel-boleto/src/migrations'
                 ]
             );
