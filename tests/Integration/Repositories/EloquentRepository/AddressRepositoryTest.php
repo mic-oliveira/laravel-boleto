@@ -7,11 +7,14 @@ use Boleto\Models\Address;
 use Boleto\Repositories\Eloquent\AddressRepository;
 use Boleto\Repositories\Eloquent\PersonRepository;
 use Boleto\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 
 
 class AddressRepositoryTest extends TestCase
 {
+    use RefreshDatabase;
+
     private AddressRepository $repository;
     private array $addressData;
 

@@ -4,6 +4,7 @@ namespace Boleto\Services;
 
 use Boleto\Interfaces\BoletoInterface;
 use Boleto\Models\Banks\Bradesco;
+use Boleto\Models\Billet;
 use Boleto\Models\Email;
 use Boleto\Repositories\Eloquent\AddressRepository;
 use Boleto\Repositories\Eloquent\BilletRepository;
@@ -22,17 +23,24 @@ use Bradesco\Services\JWTService;
 use Bradesco\Services\SignatureService;
 use Carbon\Carbon;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 
 class BradescoBoletoService extends BilletEmissionService implements BoletoInterface
 {
     private JWTService $jwtService;
+    private AuthService $auth;
 
-    public function __construct(JWTService $JWTService)
+    public function __construct(JWTService $JWTService, AuthService $auth )
     {
         parent::__construct();
         $this->jwtService = $JWTService;
         $this->setSignature(new Signature());
+        $this->auth = $auth;
+        config('boleto.environment') ? $this->auth->setClient(new Client([
+            'verify' => false,
+            'base_uri' => 'https://openapi.bradesco.com.br'
+        ])) : null;
     }
 
     public function emit(BilletTemplateInterface $billet)
@@ -50,12 +58,14 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
                 'exp' => Carbon::now()->addMonth()->getPreciseTimestamp(0),
                 'jti' => Carbon::now()->getPreciseTimestamp(3)
             ]);
+            $this->setClient(new Client(['verify' => false,
+                'base_uri' => 'https://proxy.api.prebanco.com.br']));
             $token = $this->jwtService->createJWTToken(
                 config('boleto.bradesco_certificate_path'),
                 config('boleto.bradesco_certificate_pass')
             );
             cache()->has('bradesco_access_token') ? cache()->get('bradesco_access_token') :
-               cache()->add('bradesco_access_token', (new AuthService())->accessToken($token),
+               cache()->add('bradesco_access_token', $this->auth->accessToken($token),
                config('boleto.bradesco_token_ttl'));
             $this->getSignature()->setAccessToken(cache()->get('bradesco_access_token'));
             $this->makeSignature($billetTemplate->parse(),"/v1/boleto/registrarBoleto", "POST");
@@ -146,5 +156,11 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
     public function cancelBillet()
     {
         // TODO: Implement cancelBillet() method.
+    }
+
+    public function billetPayment()
+    {
+        $billet_id = substr($billet,'');
+        $bank_billet = Billet::where('id',$bank_id)->get()->first() ?? null;
     }
 }

@@ -19,15 +19,14 @@ class CNAB400ServiceTest extends TestCase
 
     public function testReadCNAB400()
     {
-        echo "CODIGO\tFATURA\tVALOR\n";
+        echo "ID_BANCO\tCODIGO\tFATURA\tVALOR\n";
         foreach ($this->service->readCNAB400(__DIR__.'/../../../CN15041A.RET') as $lin_num=>$line) {
-            if ($lin_num > 0){
+            if ($lin_num > 0 && $lin_num){
+                echo substr($line,127,7)."\t";
                 echo substr($line,57,5)."\t";
                 echo substr($line,63,7)."\t"; // CODIGO FATURA(NOSSO NUMERO)
-                echo bcdiv((int)substr($line,153,12),100,2)."\n"; //VALOR DO BOLETO
+                echo bcdiv((int)substr($line,153,12),100,2)."\n"; // VALOR DO BOLETO
             }
-
         }
-
     }
 }

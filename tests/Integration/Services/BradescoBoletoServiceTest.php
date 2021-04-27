@@ -115,7 +115,7 @@ class BradescoBoletoServiceTest extends TestCase
         ];
         //dump((new AuthService())->accessToken())
         dump($this->service->makeTemplate($data)->parse());
-        file_put_contents('parse.txt',json_encode($this->service->makeTemplate($data)->parse()));
+        // file_put_contents('parse.txt',json_encode($this->service->makeTemplate($data)->parse()));
         dump($this->service->charge($data)->getBody()->getContents());
     }
 
