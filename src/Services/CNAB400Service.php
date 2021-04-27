@@ -6,6 +6,7 @@ namespace Boleto\Services;
 
 use Boleto\Models\Billet;
 use Boleto\Repositories\Eloquent\BilletRepository;
+use Boleto\Resource\CNABRescource;
 use Generator;
 
 class CNAB400Service
@@ -21,9 +22,11 @@ class CNAB400Service
 
     public function generateCNAB400()
     {
-        $this->billetRepository->get()->each(function (Billet $billet) {
-
+        $content = $this->makeHeader();
+        $this->billetRepository->get()->each(function (Billet $billet) use (&$content) {
+            $content.=$this->makeDetails(CNABRescource::make($billet)->jsonSerialize());
         });
+
     }
 
     public function readCNAB400($file_path): Generator
@@ -37,12 +40,10 @@ class CNAB400Service
     public function registerPayedBillet($file_path)
     {
         foreach ($this->readCNAB400($file_path) as $billet) {
-
-
         }
     }
 
-    public function makeHead(array $data=[]): string
+    public function makeHeader(array $data=[]): string
     {
         $register = $data['register'] ?? '0';
         $operation_type = $data['operation_type'] ?? '1';
@@ -69,12 +70,12 @@ class CNAB400Service
         $transaction_id = $data['transaction_id'] ?? '1';
         $company_type = $data['company_type'] ?? '02';
         $company_register = $data['company_reigster'] ?? ''; // CNPJ
-        $agency = config('boleto.bradesco_agency');
+        $agency = $data['agency'];
         $complement = $data['complment'] ?? '00';
-        $account = config('boleto.bradesco_agency');
+        $account = str_pad($data['account'],5, '0', STR_PAD_LEFT);
         $account_digit = $data['account_digit'];
         $instruction = $data['instruction'] ?? '0000';
-        $your_number = str_pad($data['your_number'], 26,'0', STR_PAD_LEFT);
+        $our_number = str_pad($data['our_number'], 26,'0', STR_PAD_LEFT);
         $bank_number = $data['bank_number'];
         $currency_amount = str_pad($data['currency_amount'],13, '0', STR_PAD_LEFT);
         $wallet_number = $data['wallet_number'];
@@ -84,6 +85,39 @@ class CNAB400Service
         $due_date = $data['due_date'] ?? now()->format('dmy');
         $nominal_value = str_pad($data['nominal_value'], 13, '0', STR_PAD_LEFT);
         $delivery_id = $data['delivery_id'];
+        $bank_id = $data['bank_id']; // ex.: 341
+        $charge_agency = $data['charge_agency'] ?? '0000';
+        $title_specie = $data['title_specie'] ?? '99';
+        $title_id = $data['title_id'] ?? 'A';
+        $emission_date = $data['emission_date'] ?? now()->format('dmy');
+        $first_instruction = $data['first_instruction'] ?? '29';
+        $second_instruction = $data['second_instruction'] ?? '94';
+        $late_fee = $data['late_fee'] ?? '0';
+        $date_limit_discount = $data['date_limit_discount'];
+        $discount_value = $data['discount_value'];
+        $iof_value = $data['iof_value'];
+        $discount_amount = $data['discount_amount'];
+        $document_type = str_pad($data['document_type'],15, '0', STR_PAD_LEFT);
+        $payer_name = $data['payer_name'];
+        $payer_address = $data['payer_address'];
+        $payer_neighborhood = $data['payer_neighborhood'];
+        $postal_code = str_pad($data['postal_code'], 8, '0', STR_PAD_LEFT);
+        $city = str_pad($data['city'], 15);
+        $uf = $data['uf'];
+        $description = str_pad($data['description'], 40);
+        $register_detail = $data['register_detail'];
+        $sequence_number = $data['sequence_number'];
+
+        return $transaction_id.$company_type.$company_register.$agency.$complement.$account.$account_digit
+            .str_pad(' ', 4).$instruction.$our_number.$bank_number.$currency_amount.str_pad(' ', 21)
+            .$wallet_number.$occurrence_id.$wallet_id.$document_number.$due_date.$nominal_value.$delivery_id.$bank_id
+            .$charge_agency.$title_specie.$title_id.$emission_date.$first_instruction.$second_instruction.$late_fee
+            .$date_limit_discount.$discount_value.$iof_value.$discount_amount.$document_type.$payer_name.$payer_address
+            .$payer_neighborhood.$postal_code.$city.$uf.$description.$register_detail.$sequence_number."\n";
+    }
+
+    public function makeFooter()
+    {
 
     }
 }
