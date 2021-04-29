@@ -7,6 +7,7 @@ namespace Boleto\Services;
 use Boleto\Models\Billet;
 use Boleto\Repositories\Eloquent\BilletRepository;
 use Boleto\Resource\CNABRescource;
+use Boleto\Resource\CNABResource;
 use Generator;
 
 class CNAB400Service
@@ -24,7 +25,7 @@ class CNAB400Service
     {
         $content = $this->makeHeader();
         $this->billetRepository->get()->each(function (Billet $billet) use (&$content) {
-            $content.=$this->makeDetails(CNABRescource::make($billet)->jsonSerialize());
+            $content.=$this->makeDetails(CNABResource::make($billet)->jsonSerialize());
         });
         file_put_contents(now()->toDayDateTimeString().'.txt', $content);
     }

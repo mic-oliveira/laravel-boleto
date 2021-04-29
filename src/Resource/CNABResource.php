@@ -6,7 +6,7 @@ namespace Boleto\Resource;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CNABRescource extends JsonResource
+class CNABResource extends JsonResource
 {
     public function toArray($request)
     {
