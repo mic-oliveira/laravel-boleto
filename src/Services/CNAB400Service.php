@@ -26,7 +26,7 @@ class CNAB400Service
         $this->billetRepository->get()->each(function (Billet $billet) use (&$content) {
             $content.=$this->makeDetails(CNABRescource::make($billet)->jsonSerialize());
         });
-
+        file_put_contents(now()->toDayDateTimeString().'.txt', $content);
     }
 
     public function readCNAB400($file_path): Generator
