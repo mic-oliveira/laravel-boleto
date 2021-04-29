@@ -37,7 +37,7 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
         $this->jwtService = $JWTService;
         $this->setSignature(new Signature());
         $this->auth = $auth;
-        config('boleto.environment') ? $this->auth->setClient(new Client([
+        config('boleto.environment') === 'production' ? $this->auth->setClient(new Client([
             'verify' => false,
             'base_uri' => 'https://openapi.bradesco.com.br'
         ])) : null;

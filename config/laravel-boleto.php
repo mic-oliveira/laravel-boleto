@@ -6,7 +6,7 @@ return [
      |   AMBIENTE
      |------------------------------------------------------------------------------------------------------------------
      */
-    'environment' => env('BOLETO_ENVIRONMENT', 'false'),
+    'environment' => env('BOLETO_ENVIRONMENT', false), // 'production' for URL production
     /*
      |------------------------------------------------------------------------------------------------------------------
      |   BASE DE DADOS DO BOLETO
