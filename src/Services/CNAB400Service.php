@@ -21,6 +21,11 @@ class CNAB400Service
         $this->billetRepository = $billetRepository;
     }
 
+    public function registerBillet(array $data)
+    {
+
+    }
+
     public function generateCNAB400()
     {
         $content = $this->makeHeader();
