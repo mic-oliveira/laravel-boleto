@@ -58,8 +58,6 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
                 'exp' => Carbon::now()->addMonth()->getPreciseTimestamp(0),
                 'jti' => Carbon::now()->getPreciseTimestamp(3)
             ]);
-            $this->setClient(new Client(['verify' => false,
-                'base_uri' => 'https://proxy.api.prebanco.com.br']));
             $token = $this->jwtService->createJWTToken(
                 config('boleto.bradesco_certificate_path'),
                 config('boleto.bradesco_certificate_pass')
