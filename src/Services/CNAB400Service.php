@@ -6,7 +6,6 @@ namespace Boleto\Services;
 
 use Boleto\Models\Billet;
 use Boleto\Repositories\Eloquent\BilletRepository;
-use Boleto\Resource\CNABRescource;
 use Boleto\Resource\CNABResource;
 use Generator;
 

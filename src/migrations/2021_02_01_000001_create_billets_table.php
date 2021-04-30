@@ -43,6 +43,7 @@ class CreateBilletsTable extends Migration
             $table->string('digitable_line')->nullable();
             $table->integer('return_code')->nullable();
             $table->string('return_message')->nullable();
+            $table->boolean('emitted')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
