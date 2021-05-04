@@ -7,6 +7,7 @@ namespace Boleto\Services;
 use Boleto\Models\Billet;
 use Boleto\Repositories\Eloquent\BilletRepository;
 use Boleto\Resource\CNABResource;
+use Carbon\Carbon;
 use Generator;
 
 class CNAB400Service
@@ -70,59 +71,32 @@ class CNAB400Service
             .str_pad(' ',294).$sequence_number."\n";
     }
 
-    public function makeDetails(array $data)
+    public function makeDetails(array $data): string
     {
-        $transaction_id = $data['transaction_id'] ?? '1';
-        $company_type = $data['company_type'] ?? '02';
-        $company_register = $data['company_reigster'] ?? ''; // CNPJ
-        $agency = $data['agency'];
-        $complement = $data['complment'] ?? '00';
-        $account = str_pad($data['account'],5, '0', STR_PAD_LEFT);
-        $account_digit = $data['account_digit'];
-        $instruction = $data['instruction'] ?? '0000';
-        $our_number = str_pad($data['our_number'], 26,'0', STR_PAD_LEFT);
-        $bank_number = $data['bank_number'];
-        $currency_amount = str_pad($data['currency_amount'],13, '0', STR_PAD_LEFT);
-        $wallet_number = $data['wallet_number'];
-        $occurrence_id = $data['occurrence_id'];
-        $wallet_id = $data['wallet_id'];
-        $document_number = str_pad($data['document_number'], 8, '0', STR_PAD_LEFT);
-        $due_date = $data['due_date'] ?? now()->format('dmy');
-        $nominal_value = str_pad($data['nominal_value'], 13, '0', STR_PAD_LEFT);
-        $delivery_id = $data['delivery_id'];
-        $bank_id = $data['bank_id']; // ex.: 341
-        $charge_agency = $data['charge_agency'] ?? '0000';
-        $title_specie = $data['title_specie'] ?? '99';
-        $title_id = $data['title_id'] ?? 'A';
-        $emission_date = $data['emission_date'] ?? now()->format('dmy');
-        $first_instruction = $data['first_instruction'] ?? '29';
-        $second_instruction = $data['second_instruction'] ?? '94';
-        $late_fee = $data['late_fee'] ?? '0';
-        $date_limit_discount = $data['date_limit_discount'];
-        $discount_value = $data['discount_value'];
-        $iof_value = $data['iof_value'];
-        $discount_amount = $data['discount_amount'];
-        $document_type = str_pad($data['document_type'],15, '0', STR_PAD_LEFT);
-        $payer_name = $data['payer_name'];
-        $payer_address = $data['payer_address'];
-        $payer_neighborhood = $data['payer_neighborhood'];
-        $postal_code = str_pad($data['postal_code'], 8, '0', STR_PAD_LEFT);
-        $city = str_pad($data['city'], 15);
-        $uf = $data['uf'];
-        $description = str_pad($data['description'], 40);
-        $register_detail = $data['register_detail'];
-        $sequence_number = $data['sequence_number'];
-
-        return $transaction_id.$company_type.$company_register.$agency.$complement.$account.$account_digit
-            .str_pad(' ', 4).$instruction.$our_number.$bank_number.$currency_amount.str_pad(' ', 21)
-            .$wallet_number.$occurrence_id.$wallet_id.$document_number.$due_date.$nominal_value.$delivery_id.$bank_id
-            .$charge_agency.$title_specie.$title_id.$emission_date.$first_instruction.$second_instruction.$late_fee
-            .$date_limit_discount.$discount_value.$iof_value.$discount_amount.$document_type.$payer_name.$payer_address
-            .$payer_neighborhood.$postal_code.$city.$uf.$description.$register_detail.$sequence_number."\n";
+        $id_register=$data['id_register'];
+        $wallet=$data['wallet'] ?? 0;
+        $agency=$data['agency'] ?? 0;
+        $account=$data['account'] ?? 0;
+        $company_id=str_pad($wallet.$agency.$account,17,0,STR_PAD_LEFT);
+        $partner_number=str_pad($data['patner_number'] ?? 0, 25,0,STR_PAD_LEFT);
+        $bank_number=str_pad($data['bank_number'], 3,0,STR_PAD_LEFT) ?? '237';
+        $fee=$data['fee'];
+        $fee_percent=str_pad($data['fee_percent'] ?? 0,4,0,STR_PAD_LEFT);
+        $title_id=str_pad($data['title_id'] ?? 0,11,0,STR_PAD_LEFT);
+        $conference_number=$data['conference_number'] ?? 0;
+        $bonus_per_day=str_pad($data['bonus_per_day'] ?? 0,10,0,STR_PAD_LEFT);
+        $emission_condition=$data['emission_condition'] ?? 1;
+        $automatic_debit=$data['automatic debit'] ?? 'N';
+        $blank_10=str_repeat(' ',10);
+        $average_indicator=$data['average_indicator'] ?? ' ';
+        $debit_notice=$data['debit_notice'] ?? ' ';
+        $payment_quantity=str_pad($data['payment_quantity'] ?? 01,2,0,STR_PAD_LEFT);
+        $document_number=str_pad($data['document_number'] ?? 0, 10,STR_PAD_LEFT);
+        $due_date=$data['due_date'] ?? now()->addWeekday()->format('dmy');
     }
 
-    public function makeFooter()
+    public function makeFooter(int $sequence_number=0): string
     {
-
+        return '9'.str_repeat(' ',393).str_pad($sequence_number,6, '0',STR_PAD_LEFT);
     }
 }
