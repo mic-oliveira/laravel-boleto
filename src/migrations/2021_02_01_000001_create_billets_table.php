@@ -15,6 +15,7 @@ class CreateBilletsTable extends Migration
             $table->integer('agency');
             $table->string('title_number');
             $table->integer('title_type');
+            $table->integer('title_specie')->default(99);
             $table->integer('currency_code');
             $table->integer('product_id');
             $table->string('client_number');

@@ -72,6 +72,7 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
             $billetTemplate->getBillet()->update(['return_code' => json_decode($response)->codigoRetorno]);
             $billetTemplate->getBillet()->update(['return_message' => json_decode($response)->mensagemRetorno]);
             $billetTemplate->getBillet()->update(['bank_id' => json_decode($response)->nuTituloGerado]);
+            $billetTemplate->getBillet()->update(['emitted' => true]);
             DB::commit();
             return $response;
         } catch (Exception $exception) {
@@ -156,9 +157,4 @@ class BradescoBoletoService extends BilletEmissionService implements BoletoInter
         // TODO: Implement cancelBillet() method.
     }
 
-    public function billetPayment()
-    {
-        $billet_id = substr($billet,'');
-        $bank_billet = Billet::where('id',$bank_id)->get()->first() ?? null;
-    }
 }
