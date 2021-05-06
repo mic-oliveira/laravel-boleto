@@ -48,6 +48,7 @@ class Billet extends Model
         'payer_id',
         'drawer_id',
         'layout_version',
+        'emitted'
     ];
 
     protected $casts = [

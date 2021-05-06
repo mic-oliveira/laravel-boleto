@@ -6,9 +6,11 @@ namespace Boleto\Services;
 
 use Boleto\Models\Billet;
 use Boleto\Repositories\Eloquent\BilletRepository;
+use Boleto\Resource\BradescoCNAB400;
 use Boleto\Resource\CNABResource;
 use Carbon\Carbon;
 use Generator;
+use Illuminate\Support\Str;
 
 class CNAB400Service
 {
@@ -30,7 +32,7 @@ class CNAB400Service
     {
         $content = $this->makeHeader();
         $this->billetRepository->get()->each(function (Billet $billet, $item) use (&$content) {
-            $content.=$this->makeDetails(CNABResource::make($billet)->jsonSerialize());
+            $content.=$this->makeDetails(BradescoCNAB400::make($billet)->jsonSerialize());
         });
         $content.=$this->makeFooter();
         file_put_contents(now()->toDayDateTimeString().'.txt', $content);
@@ -78,45 +80,45 @@ class CNAB400Service
         $wallet=$data['wallet'] ?? 0;
         $agency=$data['agency'] ?? 0;
         $account=$data['account'] ?? 0;
-        $company_id=str_pad($wallet.$agency.$account,17,0,STR_PAD_LEFT);
-        $partner_number=str_pad($data['partner_number'] ?? 0, 25,0,STR_PAD_LEFT);
-        $bank_number=str_pad($data['bank_number'] ?? '237', 3,0,STR_PAD_LEFT) ;
+        $company_id=Str::of($wallet.$agency.$account)->padLeft(17,0);
+        $partner_number=Str::of($data['partner_number'] ?? 0)->padLeft(25,0);
+        $bank_number=Str::of($data['bank_number'] ?? '237')->padLeft(3,0) ;
         $fee=$data['fee'] ?? 0;
-        $fee_percent=str_pad($data['fee_percent'] ?? 0,4,0,STR_PAD_LEFT);
-        $title_id=str_pad($data['title_id'] ?? 0,11,0,STR_PAD_LEFT);
+        $fee_percent=Str::of($data['fee_percent'] ?? 0)->padLeft(4,0);
+        $title_id=Str::of($data['title_id'] ?? 0)->padLeft(11,0);
         $conference_number=$data['conference_number'] ?? 0;
-        $bonus_per_day=str_pad($data['bonus_per_day'] ?? 0,10,0,STR_PAD_LEFT);
+        $bonus_per_day=Str::of($data['bonus_per_day'] ?? 0)->padLeft(10,0);
         $emission_condition=$data['emission_condition'] ?? 1;
         $automatic_debit=$data['automatic debit'] ?? 'N';
         $blank_10=str_repeat(' ',10);
         $average_indicator=$data['average_indicator'] ?? ' ';
         $debit_notice=$data['debit_notice'] ?? ' ';
-        $payment_quantity=str_pad($data['payment_quantity'] ?? 1,2,0,STR_PAD_LEFT);
-        $occurrence_id=str_pad($data['occurrence_id'] ?? 0,2,0,STR_PAD_LEFT);
-        $document_number=str_pad($data['document_number'] ?? 0, 10, 0, STR_PAD_LEFT);
-        $due_date=$data['due_date'] ?? now()->addWeekday()->format('dmy');
-        $title_value=str_pad($data['title_value'] ?? 0, 13, 0, STR_PAD_LEFT);
-        $bank_in_charge=str_pad(0, 3, 0, STR_PAD_LEFT);
-        $depository_agency=str_pad(0,5,0,STR_PAD_LEFT);
-        $title_specie=str_pad($data['title_specie'] ?? 99,2,0,STR_PAD_LEFT);
+        $payment_quantity=Str::of($data['payment_quantity'] ?? 1)->padLeft(2,0);
+        $occurrence_id=Str::of($data['occurrence_id'] ?? 0)->padLeft(2,0);
+        $document_number=Str::of($data['document_number'] ?? 0)->padLeft(10, 0);
+        $due_date=Carbon::parse($data['due_date'])->format('dmy') ?? now()->addWeekday()->format('dmy');
+        $title_value=Str::of($data['title_value'] ?? 0)->padLeft(13, 0);
+        $bank_in_charge=Str::of(0)->padLeft(3, 0);
+        $depository_agency=Str::of(0)->padLeft(5,0);
+        $title_specie=Str::of($data['title_specie'] ?? 99)->padLeft(2,0);
         $identifier='N';
-        $emission_date=$data['emission_date'] ?? now()->format('dmy');
-        $first_instruction=str_pad($data['first_instruction'] ?? 0,2,0,STR_PAD_LEFT);
-        $second_instruction=str_pad($data['second_instruction'] ?? 0,2,0,STR_PAD_LEFT);
-        $fine_live=str_pad($data['fine_live'] ?? 0,13,0,STR_PAD_LEFT);
-        $discount_limit_date=str_pad($data['discount_limit_date'] ?? 0,6,0,STR_PAD_LEFT);
-        $discount_value=str_pad($data['discount_value'] ?? 0,13,0, STR_PAD_LEFT);
-        $iof_value=str_pad($data['iof_value'] ?? 0,13,0, STR_PAD_LEFT);
-        $dejection_value=str_pad($data['dejection_value'] ?? 0,13,0,STR_PAD_LEFT);
-        $payer_type=str_pad($data['payer_type'] ?? 1,2,0,STR_PAD_LEFT);
-        $payer_document=str_pad($data['payer_document'] ?? 0,14,0,STR_PAD_LEFT);
-        $payer_name=str_pad(substr($data['payer_name']  ?? "USUARIO SEM NOME",0,40),40," ");
-        $payer_address=str_pad(substr($data['payer_address'] ?? "SEM ENDERECO",0,40) ,40, " ");
-        $first_message=str_pad(substr($data['first_message'] ?? " ",0,12) ,12, " ");
-        $postal_code=str_pad($data['postal_code'] ?? 0,5,0,STR_PAD_LEFT);
-        $postal_code_suffix=str_pad($data['postal_code_suffix'] ?? 0, 3,0,STR_PAD_LEFT);
-        $second_message=str_pad(substr($data['second_message'] ?? "",0,60),60," ");
-        $sequence_number=str_pad($data['sequence_number'] ?? 0,6,0,STR_PAD_LEFT);
+        $emission_date=Carbon::parse($data['emission_date'])->format('dmy') ?? now()->format('dmy');
+        $first_instruction=Str::of($data['first_instruction'] ?? 0)->padLeft(2,0);
+        $second_instruction=Str::of($data['second_instruction'] ?? 0)->padLeft(2,0);
+        $fine_live=Str::of(Carbon::parse($data['fine_live'])->format('dmy') ?? 0)->padLeft(13,0);
+        $discount_limit_date=Str::of(Carbon::parse($data['discount_limit_date'])->format('dmy') ?? 0)->padLeft(6,0);
+        $discount_value=Str::of($data['discount_value'] ?? 0)->padLeft(13,0);
+        $iof_value=Str::of($data['iof_value'] ?? 0)->padLeft(13,0);
+        $dejection_value=Str::of($data['dejection_value'] ?? 0)->padLeft(13,0);
+        $payer_type=Str::of($data['payer_type'] ?? 1)->padLeft(2,0);
+        $payer_document=Str::of($data['payer_document'] ?? 0)->padLeft(14,0);
+        $payer_name=Str::of($data['payer_name']  ?? "USUARIO SEM NOME")->substr(0,40)->padRight(40," ");
+        $payer_address=Str::of($data['payer_address'] ?? "SEM ENDERECO")->substr(0,40)->padRight(40, " ");
+        $first_message=Str::of($data['first_message'] ?? " ")->substr(0,12)->padRight(12, " ");
+        $postal_code=Str::of($data['postal_code'] ?? 0)->padLeft(5,0);
+        $postal_code_suffix=Str::of($data['postal_code_suffix'] ?? 0)->padLeft(3,0);
+        $second_message=Str::of($data['second_message'] ?? " ")->substr(0,60)->padRight(60," ");
+        $sequence_number=Str::of($data['sequence_number'] ?? 0)->padLeft(6,0);
 
         return $id_register.str_repeat(" ",19).$company_id.$partner_number.$bank_number.$fee
             .$fee_percent.$title_id.$conference_number.$bonus_per_day.$emission_condition.$automatic_debit
